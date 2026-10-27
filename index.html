@@ -3,231 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>贾皓尧的《高级网页设计》课堂实践</title>
-    <link rel="stylesheet" href="./html_basic.css">
-    <style>
-        * { box-sizing: border-box; }
-
-        :root {
-            --bg-1: #eef4ff;
-            --bg-2: #f8fbff;
-            --panel: rgba(255, 255, 255, 0.94);
-            --primary: #1d4ed8;
-            --primary-soft: #dfeaff;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --line: #dfe7f4;
-            --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-        }
-
-        body {
-            margin: 0;
-            font-family: "Microsoft YaHei", "Segoe UI", Tahoma, Arial, sans-serif;
-            color: var(--text);
-            background:
-                radial-gradient(circle at top left, rgba(29, 78, 216, 0.08), transparent 28%),
-                radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.08), transparent 32%),
-                linear-gradient(135deg, var(--bg-1), var(--bg-2));
-        }
-
-        .wrap {
-            width: min(1100px, calc(100% - 32px));
-            margin: 40px auto;
-            background: var(--panel);
-            border: 1px solid rgba(223, 231, 244, 0.9);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .header {
-            background: linear-gradient(135deg, #172554, #1d4ed8);
-            color: white;
-            padding: 38px 30px 28px;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: clamp(2rem, 4vw, 3.3rem);
-            line-height: 1.2;
-            letter-spacing: 1px;
-        }
-
-        .header p {
-            margin: 12px 0 0;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.05rem;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        .section-title {
-            margin: 0 0 18px;
-            font-size: 1.9rem;
-            color: var(--primary);
-        }
-
-        .menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-        }
-
-        .menu li {
-            margin: 0;
-        }
-
-        .menu a {
-            display: block;
-            text-decoration: none;
-            background: linear-gradient(180deg, #ffffff, #f8fbff);
-            border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 20px 18px;
-            color: var(--text);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 10px 18px rgba(15, 23, 42, 0.03);
-        }
-
-        .menu a:hover {
-            transform: translateY(-4px);
-            border-color: rgba(29, 78, 216, 0.45);
-            box-shadow: 0 16px 28px rgba(29, 78, 216, 0.08);
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 6px 10px;
-            background: var(--primary-soft);
-            color: var(--primary);
-            border-radius: 999px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .menu h3 {
-            margin: 0 0 8px;
-            font-size: 1.35rem;
-        }
-
-        .menu p {
-            margin: 0;
-            line-height: 1.7;
-            color: var(--muted);
-        }
-
-        .prompt-box {
-            margin-top: 32px;
-            background: #f8fafc;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 20px 18px;
-        }
-
-        .prompt-box h2 {
-            margin: 0 0 12px;
-            font-size: 1.55rem;
-            color: var(--primary);
-        }
-
-        .prompt-box pre {
-            margin: 0;
-            padding: 18px 16px;
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            white-space: pre-wrap;
-            word-break: break-word;
-            font-family: Consolas, "Courier New", monospace;
-            line-height: 1.8;
-            color: var(--text);
-        }
-
-        .footer {
-            text-align: center;
-            color: var(--muted);
-            padding: 18px 0 20px;
-            font-size: 0.92rem;
-        }
-
-        @media (max-width: 640px) {
-            .content {
-                padding: 22px 18px 26px;
-            }
-
-            .header {
-                padding: 26px 18px 22px;
-            }
-        }
-    </style>
+    <meta name="description" content="贾皓尧的《高级网页设计》课堂实践作品集，收录 HTML、CSS 与响应式布局学习成果。">
+    <title>贾皓尧 | 高级网页设计课堂实践</title>
+    <link rel="stylesheet" href="./index.css">
 </head>
 <body>
-    <div class="wrap">
-        <header class="header">
-            <h1>贾皓尧的《高级网页设计》课堂实践</h1>
-            <p>HTML基础 · 自我介绍网页 · 课程作品展示</p>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="brand" href="#top" aria-label="返回页面顶部">
+                <span class="brand-mark">JH</span>
+                <span class="brand-copy">
+                    <strong>高级网页设计</strong>
+                    <small>课堂实践档案</small>
+                </span>
+            </a>
+
+            <nav class="site-nav" aria-label="页面导航">
+                <a href="#projects">课程目录</a>
+                <a href="#skills">能力图谱</a>
+                <a href="#resources">课程资料</a>
+                <a href="#prompt">本页提示词</a>
+            </nav>
         </header>
 
-        <main class="content">
-            <h2 class="section-title">课堂目录</h2>
+        <main id="top">
+            <section class="hero" aria-labelledby="hero-title">
+                <div class="hero-copy">
+                    <span class="eyebrow">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        2026 · 课程作品集
+                    </span>
+                    <h1 id="hero-title">
+                        用原生代码，
+                        <span>搭建有层次的网页体验</span>
+                    </h1>
+                    <p class="hero-lead">
+                        这里收录贾皓尧在《高级网页设计》课堂中的练习与阶段成果，
+                        从 HTML 基础结构出发，逐步掌握 CSS 视觉、盒模型、Flex 布局与响应式设计。
+                    </p>
 
-            <ul class="menu">
-                <li>
-                    <a href="./1.html">
-                        <span class="tag">项目1</span>
-                        <h3>1.html</h3>
-                        <p>课堂前期学习成果与基础网页项目。</p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#projects">
+                            浏览课堂目录
+                            <span aria-hidden="true">↓</span>
+                        </a>
+                        <a class="btn btn-ghost" href="#skills">
+                            查看能力图谱
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </div>
+
+                    <ul class="hero-facts" aria-label="课程概览">
+                        <li>
+                            <strong>11</strong>
+                            <span>课程作品</span>
+                        </li>
+                        <li>
+                            <strong>100%</strong>
+                            <span>原生 HTML / CSS</span>
+                        </li>
+                        <li>
+                            <strong>Responsive</strong>
+                            <span>多终端适配</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="browser-card" aria-hidden="true">
+                    <div class="browser-bar">
+                        <i></i><i></i><i></i>
+                        <div class="browser-address">course-portfolio/index.html</div>
+                    </div>
+                    <div class="browser-content">
+                        <div class="mock-nav">
+                            <span class="mock-logo"></span>
+                            <span class="mock-menu">
+                                <span></span><span></span><span></span>
+                            </span>
+                        </div>
+                        <div class="mock-copy"></div>
+                        <div class="mock-copy short"></div>
+                        <div class="mock-grid">
+                            <div class="mock-panel"></div>
+                            <div class="mock-panel small"></div>
+                        </div>
+                        <div class="mock-lines">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section" id="projects" aria-labelledby="projects-title">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Course Index</span>
+                        <h2 id="projects-title">课堂作品与练习</h2>
+                    </div>
+                    <p>两个课程文件夹已经合并：这里可以直接进入全部 HTML、CSS 与 JavaScript 课堂练习。</p>
+                </div>
+
+                <div class="project-grid">
+                    <a class="project-card featured" href="./1.html" style="--card-accent: #8ce9f0;">
+                        <div class="card-top">
+                            <span class="tag">项目 01 · HTML 基础</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>我的第一个网页</h3>
+                        <p>使用标题、段落、超链接、图片、列表、表格和表单，完成 HTML 基础知识的综合练习。</p>
+                        <div class="card-chips">
+                            <span class="card-chip">HTML 标签</span>
+                            <span class="card-chip">表单</span>
+                            <span class="card-chip">H5 语义化</span>
+                        </div>
                     </a>
-                </li>
 
-                <li>
-                    <a href="./2.html">
-                        <span class="tag">项目2</span>
-                        <h3>2.html</h3>
-                        <p>后续网页练习与内容扩展页面。</p>
+                    <a class="project-card" href="./2.html" style="--card-accent: #2563eb;">
+                        <div class="card-top">
+                            <span class="tag">项目 02</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>结构与样式进阶</h3>
+                        <p>继续练习标题层级、图片、列表和表单，并开始为页面加入自定义样式。</p>
+                        <div class="card-chips"><span class="card-chip">HTML</span><span class="card-chip">基础 CSS</span></div>
                     </a>
-                </li>
 
-                <li>
-                    <a href="./3.html">
-                        <span class="tag">HTML基础</span>
-                        <h3>HTML基础</h3>
-                        <p>标题、段落、超链接、图片、列表、表格、表单与 H5 语义元素。</p>
+                    <a class="project-card" href="./3.html" style="--card-accent: #22a6b3;">
+                        <div class="card-top">
+                            <span class="tag">项目 03</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>网页元素总览</h3>
+                        <p>系统整理标题、文本、列表、表格、表单以及常用 H5 语义元素。</p>
+                        <div class="card-chips"><span class="card-chip">语义结构</span><span class="card-chip">交互表单</span></div>
                     </a>
-                </li>
 
-                <li>
-                    <a href="./self_introduction.html">
-                        <span class="tag">自我介绍</span>
-                        <h3>自我介绍网页</h3>
-                        <p>个人简介、兴趣爱好与学习目标的展示页面。</p>
+                    <a class="project-card" href="./CSS31116.html" style="--card-accent: #0ea5e9;">
+                        <div class="card-top">
+                            <span class="tag">CSS · 选择器</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>CSS3 选择器</h3>
+                        <p>通过一组彩色数字方块，练习结构选择器、伪类与元素状态样式。</p>
+                        <div class="card-chips"><span class="card-chip">选择器</span><span class="card-chip">伪类</span></div>
                     </a>
-                </li>
 
-                <li>
-                    <a href="#">
-                        <span class="tag">后续模块</span>
-                        <h3>其余模块后续在增加</h3>
-                        <p>后续课堂内容将继续补充和更新。</p>
+                    <a class="project-card" href="./stack1116.html" style="--card-accent: #7c3aed;">
+                        <div class="card-top">
+                            <span class="tag">CSS · 盒模型</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>层叠与继承</h3>
+                        <p>综合演示 CSS 层叠规则、继承、盒模型与卡片视觉结构。</p>
+                        <div class="card-chips"><span class="card-chip">层叠</span><span class="card-chip">盒模型</span></div>
                     </a>
-                </li>
-            </ul>
 
-            <div class="prompt-box">
-                <h2>本提示词</h2>
-                <pre>创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为王垚的《高级网页设计》课堂实践，美化页面，课堂目录中包含HTML基础、自我介绍网页、其余模块后续在增加。页面中包括本提示词。</pre>
-            </div>
+                    <a class="project-card" href="./layout1116.html" style="--card-accent: #f59e0b;">
+                        <div class="card-top">
+                            <span class="tag">布局 · 页面骨架</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>网页整体布局</h3>
+                        <p>使用语义标签组织页头、导航、主内容和侧栏，建立经典页面骨架。</p>
+                        <div class="card-chips"><span class="card-chip">语义标签</span><span class="card-chip">页面布局</span></div>
+                    </a>
+
+                    <a class="project-card" href="./picture_above_text1116.html" style="--card-accent: #db2777;">
+                        <div class="card-top">
+                            <span class="tag">布局 · 图文</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>上图下文卡片</h3>
+                        <p>用图片、说明文字与列表组合成响应式内容卡片，练习图文排版。</p>
+                        <div class="card-chips"><span class="card-chip">图文排版</span><span class="card-chip">列表</span></div>
+                    </a>
+
+                    <a class="project-card" href="./count7.html" style="--card-accent: #16a34a;">
+                        <div class="card-top">
+                            <span class="tag">JavaScript · 逻辑</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>数 7 游戏</h3>
+                        <p>循环判断 1 到 100 中的数字，筛选并动态渲染符合规则的剩余数字。</p>
+                        <div class="card-chips"><span class="card-chip">循环</span><span class="card-chip">DOM</span></div>
+                    </a>
+
+                    <a class="project-card" href="./dataTyp1116.html" style="--card-accent: #0284c7;">
+                        <div class="card-top">
+                            <span class="tag">JavaScript · 类型</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>数据类型练习</h3>
+                        <p>观察自增、三元运算、逻辑运算、typeof 与浮点数精度问题。</p>
+                        <div class="card-chips"><span class="card-chip">运算</span><span class="card-chip">typeof</span></div>
+                    </a>
+
+                    <a class="project-card" href="./JS_obj_fun.html" style="--card-accent: #ea580c;">
+                        <div class="card-top">
+                            <span class="tag">JavaScript · 数组</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>数组方法练习</h3>
+                        <p>通过神舟飞船任务序列，理解数组 push 方法与返回值的含义。</p>
+                        <div class="card-chips"><span class="card-chip">数组</span><span class="card-chip">push</span></div>
+                    </a>
+
+                    <a class="project-card" href="./booking-nav/index.html" style="--card-accent: #003b95;">
+                        <div class="card-top">
+                            <span class="tag">UI 复刻 · 导航</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>Booking 底部导航</h3>
+                        <p>以内联 SVG 图标复刻移动端底部导航，关注触控尺寸与无障碍状态。</p>
+                        <div class="card-chips"><span class="card-chip">移动端</span><span class="card-chip">SVG 图标</span></div>
+                    </a>
+                </div>
+            </section>
+            <section class="section" id="skills" aria-labelledby="skills-title">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">New Section · Skill Map</span>
+                        <h2 id="skills-title">课程能力图谱</h2>
+                    </div>
+                    <p>用四个模块概括目前的学习主线，也作为后续复习和项目扩展的导航。</p>
+                </div>
+
+                <div class="skill-grid">
+                    <article class="skill-card" style="--skill: #2563eb;">
+                        <span class="skill-number">01</span>
+                        <div class="skill-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 5h16M4 12h10M4 19h7"></path>
+                                <path d="M17 15l3 3-3 3"></path>
+                            </svg>
+                        </div>
+                        <h3>HTML 语义结构</h3>
+                        <p>使用恰当的标签组织内容，让页面结构清晰、可读，也更利于搜索引擎理解。</p>
+                        <ul class="skill-tags">
+                            <li>语义标签</li>
+                            <li>列表表格</li>
+                            <li>表单元素</li>
+                        </ul>
+                    </article>
+
+                    <article class="skill-card" style="--skill: #22a6b3;">
+                        <span class="skill-number">02</span>
+                        <div class="skill-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"></path>
+                                <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"></path>
+                            </svg>
+                        </div>
+                        <h3>CSS 视觉表达</h3>
+                        <p>通过颜色、字体、背景、阴影与圆角，建立统一的页面气质和视觉层级。</p>
+                        <ul class="skill-tags">
+                            <li>选择器</li>
+                            <li>颜色字体</li>
+                            <li>视觉层级</li>
+                        </ul>
+                    </article>
+
+                    <article class="skill-card" style="--skill: #7c3aed;">
+                        <span class="skill-number">03</span>
+                        <div class="skill-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                                <path d="M9 4v16M3 9h6M12 9h9"></path>
+                            </svg>
+                        </div>
+                        <h3>布局与盒模型</h3>
+                        <p>理解内容、内边距、边框和外边距，再用 Flex 与 Grid 组织页面空间。</p>
+                        <ul class="skill-tags">
+                            <li>盒模型</li>
+                            <li>Flex 布局</li>
+                            <li>Grid 网格</li>
+                        </ul>
+                    </article>
+
+                    <article class="skill-card" style="--skill: #f59e0b;">
+                        <span class="skill-number">04</span>
+                        <div class="skill-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="7" y="2.5" width="10" height="19" rx="2"></rect>
+                                <path d="M10 18.5h4M3 7h3M18 7h3M3 14h3M18 14h3"></path>
+                            </svg>
+                        </div>
+                        <h3>响应式适配</h3>
+                        <p>面向手机、平板和桌面调整布局，让同一份内容在不同屏幕上都有良好体验。</p>
+                        <ul class="skill-tags">
+                            <li>媒体查询</li>
+                            <li>弹性宽度</li>
+                            <li>多端体验</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+            <section class="section resource-section" id="resources" aria-labelledby="resources-title">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Course Resources</span>
+                        <h2 id="resources-title">课程资料</h2>
+                    </div>
+                    <p>随课程项目一起归档的 PDF、演示文稿、表格和思维导图，发布后可直接下载。</p>
+                </div>
+                <div class="resource-grid">
+                    <a class="resource-card" href="./c语言/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF%E4%B8%93%E4%B8%9A%E8%81%8C%E4%B8%9A%E8%A7%84%E5%88%92.pptx">
+                        <span class="resource-icon">PPT</span>
+                        <span><strong>计算机科学与技术专业职业规划</strong><small>演示文稿 · PPTX</small></span>
+                        <span class="resource-arrow">↓</span>
+                    </a>
+                    <a class="resource-card" href="./c语言/%E3%80%8A%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%E4%B8%8E%E6%8A%80%E6%9C%AF%EF%BC%9A%E5%BC%80%E5%90%AF%E7%92%80%E7%92%A8%E7%94%9F%E6%B6%AF%E4%B9%8B%E6%97%85%E3%80%8B.pdf">
+                        <span class="resource-icon">PDF</span>
+                        <span><strong>开启璀璨生涯之旅</strong><small>阅读资料 · PDF</small></span>
+                        <span class="resource-arrow">↓</span>
+                    </a>
+                    <a class="resource-card" href="./c语言/C%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E5%A4%87%E6%9F%A5%E8%A1%A8.xls">
+                        <span class="resource-icon">XLS</span>
+                        <span><strong>C 语言基础知识备查表</strong><small>速查表格 · XLS</small></span>
+                        <span class="resource-arrow">↓</span>
+                    </a>
+                    <a class="resource-card" href="./c语言/C%E8%AF%AD%E8%A8%80%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.png">
+                        <span class="resource-icon">PNG</span>
+                        <span><strong>C 语言知识点思维导图</strong><small>复习图谱 · PNG</small></span>
+                        <span class="resource-arrow">↓</span>
+                    </a>
+                    <a class="resource-card" href="./c语言/PTA-%E7%9F%A5%E8%AF%86%E7%82%B9%E5%AF%B9%E5%BA%94%E9%A2%98%E5%8F%B7-%E7%A0%B4%E9%A2%98%E7%B4%A2%E5%BC%95.xlsx">
+                        <span class="resource-icon">XLS</span>
+                        <span><strong>PTA 知识点破题索引</strong><small>练习题索引 · XLSX</small></span>
+                        <span class="resource-arrow">↓</span>
+                    </a>
+                </div>
+            </section>
+            <section class="section" id="prompt" aria-labelledby="prompt-title">
+                <div class="prompt-card">
+                    <div class="prompt-symbol" aria-hidden="true">✦</div>
+                    <div class="prompt-copy">
+                        <span class="section-kicker">Prompt Archive</span>
+                        <h2 id="prompt-title">本页整理说明</h2>
+                        <details open>
+                            <summary>查看整合与发布规则</summary>
+                            <pre>将“高级网页设计”和“web-workspace”两个课程文件夹中的 HTML、CSS、JavaScript、图片与项目资源合并到同一个可发布目录；所有课程卡片必须指向真实存在的页面，不使用 CDN，并确保 Netlify 从统一根目录发布后不会再出现 404 或空白页。</pre>
+                        </details>
+                    </div>
+                </div>
+            </section>
         </main>
 
-        <div class="footer">
-            © 2026 贾皓尧的《高级网页设计》课堂实践
-        </div>
+        <footer class="site-footer">
+            <span>© 2026 贾皓尧的《高级网页设计》课堂实践 · 原生 HTML / CSS</span>
+            <a href="#top">回到顶部 ↑</a>
+        </footer>
     </div>
 </body>
 </html>

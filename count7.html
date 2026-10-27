@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数7游戏</title>
+<link rel="stylesheet" href="count7.css">
+    <link rel="stylesheet" href="course-nav.css">
+</head>
+<body>
+<main class="game">
+    <header class="game-header">
+        <p class="eyebrow">NUMBER GAME / 01—100</p>
+        <h1>数7游戏</h1>
+        <p class="intro">跳过含有数字 7 的数字，以及 7 的倍数。</p>
+    </header>
+    <section aria-labelledby="result-heading">
+        <div class="result-heading">
+            <h2 id="result-heading">剩余数字</h2>
+            <p id="result-count" aria-live="polite"></p>
+        </div>
+        <ol id="result" class="number-grid" aria-label="符合规则的数字"></ol>
+    </section>
+</main>
+<script>
+// 数7游戏 1~100
+const numbers = [];
+for(let i = 1; i <= 100; i++){
+    // 判断条件：包含字符7  或者 是7的倍数
+    if( i % 7 === 0 || String(i).indexOf('7') !== -1 ){
+        continue; // 满足条件，跳过本次循环，不打印
+    }
+    numbers.push(i);
+}
+const result = document.getElementById('result');
+numbers.forEach(number => {
+    const item = document.createElement('li');
+    item.textContent = number;
+    result.appendChild(item);
+});
+document.getElementById('result-count').textContent = `${numbers.length} 个`;
+</script>
+    <a class="course-back" href="index.html" aria-label="返回课程作品集">← 返回作品集</a>
+</body>
+</html>

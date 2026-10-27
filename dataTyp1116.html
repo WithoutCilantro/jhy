@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 数据类型练习</title>
+    <link rel="stylesheet" href="course-nav.css">
+    <style>
+        body { margin: 0; padding: 64px 20px 40px; color: #14213d; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: #f4f8ff; }
+        main { width: min(820px, 100%); margin: 0 auto; padding: 30px; border-radius: 22px; background: #fff; box-shadow: 0 18px 50px rgba(22, 48, 94, .12); }
+        h1 { margin: 0 0 8px; }
+        p { color: #52627a; line-height: 1.7; }
+        pre { overflow: auto; padding: 18px; color: #d9eaff; line-height: 1.7; border-radius: 14px; background: #14213d; }
+        output { display: block; margin-top: 18px; padding: 16px; line-height: 1.9; white-space: pre-wrap; border: 1px solid #dbe7ff; border-radius: 12px; background: #f7faff; }
+    </style>
+</head>
+<body>
+    <a class="course-back" href="index.html" aria-label="返回课程作品集">← 返回作品集</a>
+    <main>
+        <h1>JavaScript 数据类型练习</h1>
+        <p>运行下面的示例，查看运算结果与 typeof 返回值。</p>
+        <pre><code>let a = 10, b = 5;
+let str = 'hello world', num = 10, ble = true;
+let obj = {name: '张三', age: 20};
+let arr = [1, 2, 3, 4, 5];</code></pre>
+        <output id="result" aria-live="polite"></output>
+    </main>
+    <script>
+        const lines = [];
+        let a = 10, b = 5;
+        const str = 'hello world', num = 10, ble = true;
+        const obj = {name: '张三', age: 20}, arr = [1, 2, 3, 4, 5];
+        lines.push('后置自增 a++：' + a++);
+        lines.push('三元运算 a - b > 0 ? a : b：' + (a - b > 0 ? a : b));
+        lines.push('逻辑运算：' + [true && false, true || false, !true].join(' / '));
+        lines.push('typeof：' + [typeof str, typeof num, typeof ble, typeof obj, typeof arr].join(' / '));
+        lines.push('0.1 + 0.2 == 0.3：' + (0.1 + 0.2 == 0.3));
+        document.getElementById('result').textContent = lines.join('\n');
+    </script>
+</body>
+</html>

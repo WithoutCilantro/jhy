@@ -1,39 +1,27 @@
-# 贾皓尧的仓库
+# 高级网页设计 · 整合作品集
 
-#### 介绍
-{**以下是 Gitee 平台说明，您可以替换此简介**
-Gitee 是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用 Gitee 实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+这是由桌面上的 `高级网页设计` 与 `web-workspace` 两个课程文件夹合并后的静态站点。
 
-#### 软件架构
-软件架构说明
+## 已整合内容
 
+- HTML 基础练习：`1.html`、`2.html`、`3.html`
+- CSS 选择器、层叠继承、盒模型与布局练习
+- 图文卡片、课堂综合布局练习
+- JavaScript 数据类型、数组与数 7 游戏
+- Booking 移动端底部导航复刻
+- 课程 PDF、PPT、XLS/XLSX 与思维导图资料
 
-#### 安装教程
+## 本地预览
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+直接打开 `index.html`，或在当前目录启动任意静态文件服务器。
 
-#### 使用说明
+## Netlify 发布
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+站点的发布目录已经统一下沉到本文件夹根目录。
 
-#### 参与贡献
+- 若是 Git 自动部署：Build command 留空，Publish directory 填 `.`
+- 若是手动部署：把本文件夹整体拖入 Netlify Deploy 页面，或上传生成的 ZIP
+- 入口文件：`index.html`
+- 404 页面：`404.html`
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+不要再只发布某个子文件夹，否则课程页面与图片资源会再次分离，点击卡片时会出现 404。

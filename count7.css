@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    border-top: 10px solid #e96f52;
+    background: #edf3ee;
+    color: #193d36;
+    font-family: "Aptos", "Microsoft YaHei UI", sans-serif;
+}
+
+.game {
+    width: min(100% - 40px, 960px);
+    margin: 0 auto;
+    padding: 58px 0 72px;
+}
+
+.game-header {
+    padding-bottom: 28px;
+    border-bottom: 1px solid #c9d7ce;
+}
+
+.eyebrow {
+    margin: 0 0 14px;
+    color: #b94d39;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+h1,
+h2,
+p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-family: "Palatino Linotype", "Songti SC", serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.intro {
+    margin-bottom: 0;
+    color: #526a61;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.result-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 26px 0 14px;
+}
+
+h2 {
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
+#result-count {
+    margin-bottom: 0;
+    color: #b94d39;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.number-grid li {
+    display: grid;
+    aspect-ratio: 1;
+    place-items: center;
+    border: 1px solid #d5e0d8;
+    border-radius: 4px;
+    background: #fbfcf8;
+    color: #244d43;
+    font-size: 17px;
+    font-variant-numeric: tabular-nums;
+    animation: reveal 400ms ease both;
+}
+
+.number-grid li:nth-child(7n) {
+    border-color: #d9a54e;
+    background: #f3d69d;
+    color: #583b17;
+}
+
+.number-grid li:hover {
+    transform: translateY(-2px);
+    border-color: #e96f52;
+}
+
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 760px) {
+    .game {
+        padding-top: 42px;
+    }
+
+    .number-grid {
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 440px) {
+    .game {
+        width: min(100% - 28px, 960px);
+        padding-top: 32px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    .number-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+    }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的第一个网页</title>
+    <style>
+        img{
+            display: block;
+        }
+        .title-demo{
+            color: red;
+        }
+        /* 黄色背景块样式，对应截图黄色区域 */
+        .box-yellow{
+            background-color: yellow;
+            padding:8px;
+        }
+    </style>
+    <link rel="stylesheet" href="course-nav.css">
+</head>
+<body>
+    <div class="box-yellow">
+        <h2 class="title-demo">1.标题</h2>
+    </div>
+
+    <h1>一级标题</h1>
+    <h2>二级标题</h2>
+    <h3>三级标题</h3>
+    <h4>四级标题</h4>
+    <h5>五级标题</h5>
+    <h6>六级标题，最小的标题</h6>
+
+    <div class="box-yellow">
+        <h2 class="title-demo">2.段落</h2>
+    </div>
+
+    <p>段落的特点：段落内容自动换行，有自带的间距。<s>需要删除的</s></p>
+
+    <div class="box-yellow">
+        <h2 class="title-demo">3.超链接和图片</h2>
+    </div>
+
+    <a href="https://www.baidu.com">百度</a>
+    <br>
+    <img src="https://picsum.photos/id/1015/400/240" alt="风景图">
+
+    <!--列表、textarea、表单保留之前内容-->
+    <h3>爱好</h3>
+    <ul>
+        <li>骑行</li>
+        <li>看电影</li>
+        <li>打游戏</li>
+    </ul>
+
+    <h3>个人简介</h3>
+    <textarea rows="4" cols="40" placeholder="请输入个人简介"></textarea>
+
+    <form>
+        用户名：<input type="text" placeholder="请输入用户名">
+        <br>
+        密码：<input type="password" placeholder="请输入密码">
+        <br>
+        邮箱：<input type="email" placeholder="请输入邮箱">
+        <br>
+        文件上传：<input type="file">
+    </form>
+
+    <a class="course-back" href="index.html" aria-label="返回课程作品集">← 返回作品集</a>
+</body>
+</html>

@@ -1,0 +1,49 @@
+.jia_svg_sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.jia_bottom_nav {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 1200;
+  width: min(100%, 900px);
+  display: flex;
+  background: #fff;
+  border-top: 1px solid #d9d9d9;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.jia_bottom_nav_link {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 4px;
+  color: #666;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.jia_bottom_nav_link.jia_active {
+  color: #006ce4;
+  font-weight: 700;
+}
+
+.jia_bottom_nav_icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  color: currentColor;
+}
+
+body {
+  padding-bottom: 76px;
+}

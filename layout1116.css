@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 头部header：logo居左，login居右 */
+header {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    background: #ccc;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* 导航栏 */
+nav {
+    height: 45px;
+    background: #333;
+    color: white;
+    line-height: 45px;
+    padding-left:20px;
+}
+
+.wrap{
+    width: 1200px;
+    margin:0 auto;
+}
+/* main和aside左右并排 */
+.content-row{
+    display:flex;
+}
+main{
+    flex:1;
+    height:400px;
+    background:#87ceeb;
+}
+aside{
+    width:240px;
+    height:400px;
+    background:#ffa07a;
+}
+
+/* 页脚，学号姓名居中 */
+footer {
+    text-align: center;
+    padding: 15px 0;
+    background-color: #f5f5f5;
+    margin-top:10px;
+}
