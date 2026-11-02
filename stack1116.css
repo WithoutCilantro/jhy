@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>层叠与继承+盒模型</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            background-color: yellow;
+            font-family: "微软雅黑";
+            color: blue;
+        }
+        /* 继承：子元素会继承父元素的一些属性，比如color
+        但是不会继承margin、padding、border */
+    </style>
+</head>
+<body>
+    <!-- div.container回车 -->
+    <div class="container">
+        <h2>层叠与继承+盒模型</h2>
+        <div class="card-wrap">
+            <div class="card">
+                <img src="./img/2.jpg" alt="">
+                <h3>盒模型</h3>
+                <p class="card-desc">盒模型: padding, border, margin</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

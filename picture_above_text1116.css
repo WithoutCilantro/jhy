@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.list1,.list2{
+    display: flex;
+    flex-wrap: wrap;
+    gap:10px;
+    width: 100%;
+}
+
+.list1 li,.list2 li{
+    flex: 0 0 calc(33.33% - 10px);
+    overflow: hidden;
+}
+
+.list1 li a,.list2 li a{
+    text-decoration: none;
+    color: black;
+    display: block;
+}
+
+.list1 li a img,.list2 li a img{
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+.list1 li a p{
+    text-align: center;
+    height: 36px;
+    line-height: 36px;
+    font-size:14px;
+}
+
+/* 新增hover过渡效果 */
+.list1 img{
+    transition: all .6s ease-in-out;
+}
+/*鼠标悬浮li，图片放大1.5倍*/
+.list1 li:hover img{
+    transform: scale(1.5);
+}
+
+.list2 p{
+    transition: all 0.3s linear;
+}
+/*list2悬浮改变p高度*/
+.list2 li:hover p{
+    height: 96px;
+}
+/*奇数项悬浮样式 nth‑child(odd) 奇数孩子*/
+.list2 li:nth-child(odd):hover p{
+    height: 100%;
+    font-weight: normal;
+    color: yellow;
+}
