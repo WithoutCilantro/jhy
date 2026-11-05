@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <!-- 学号后四位：1116；姓名缩写：JHY -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻资讯</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0;
+            padding: 48px 20px;
+            background: #f3f6fa;
+            color: #1f2937;
+            font-family: "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+        }
+
+        .news {
+            width: min(100%, 900px);
+            margin: 0 auto;
+            padding: 32px;
+            border: 1px solid #e5eaf0;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 12px 36px rgb(31 41 55 / 7%);
+        }
+
+        h1 {
+            margin: 0 0 24px;
+            font-size: 28px;
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            border-bottom: 1px solid #e5eaf0;
+        }
+
+        .tab {
+            flex: 0 0 auto;
+            padding: 12px 18px;
+            border: 0;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            color: #687386;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: #2563eb;
+        }
+
+        .tab[aria-selected="true"] {
+            border-bottom-color: #2563eb;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .tab:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: -2px;
+        }
+
+        .news-panel {
+            min-height: 180px;
+            padding: 24px 4px 4px;
+        }
+
+        .news-panel h2 {
+            margin: 0 0 16px;
+            font-size: 20px;
+        }
+
+        .news-panel ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #4b5563;
+            line-height: 2;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 24px 12px;
+            }
+
+            .news {
+                padding: 22px 18px;
+            }
+        }
+    </style>
+    <script src="js/news-tabs.js" defer></script>
+</head>
+<body>
+    <main class="news">
+        <h1>新闻资讯</h1>
+        <!-- tablist 包含所有分类选项；aria-selected=true 表示默认选中的国内新闻 -->
+        <div class="tab-list" role="tablist" aria-label="新闻分类">
+            <button class="tab" id="tab-domestic" type="button" role="tab"
+                aria-controls="panel-domestic" aria-selected="true">国内新闻</button>
+            <button class="tab" id="tab-province" type="button" role="tab"
+                aria-controls="panel-province" aria-selected="false" tabindex="-1">省内新闻</button>
+            <button class="tab" id="tab-international" type="button" role="tab"
+                aria-controls="panel-international" aria-selected="false" tabindex="-1">国际新闻</button>
+            <button class="tab" id="tab-hottest" type="button" role="tab"
+                aria-controls="panel-hottest" aria-selected="false" tabindex="-1">最热新闻</button>
+        </div>
+
+        <!-- 每个面板通过 aria-labelledby 与对应选项卡关联，hidden 面板默认隐藏 -->
+        <section class="news-panel" id="panel-domestic" role="tabpanel"
+            aria-labelledby="tab-domestic" tabindex="0">
+            <h2>国内新闻</h2>
+            <ul>
+                <li>关注国内时事与社会动态</li>
+                <li>了解经济、科技和民生资讯</li>
+            </ul>
+        </section>
+        <section class="news-panel" id="panel-province" role="tabpanel"
+            aria-labelledby="tab-province" tabindex="0" hidden>
+            <h2>省内新闻</h2>
+            <ul>
+                <li>关注本省最新政策与发展动态</li>
+                <li>了解本地社会和城市生活资讯</li>
+            </ul>
+        </section>
+        <section class="news-panel" id="panel-international" role="tabpanel"
+            aria-labelledby="tab-international" tabindex="0" hidden>
+            <h2>国际新闻</h2>
+            <ul>
+                <li>了解国际时事与全球热点</li>
+                <li>关注世界经济、文化与科技动态</li>
+            </ul>
+        </section>
+        <section class="news-panel" id="panel-hottest" role="tabpanel"
+            aria-labelledby="tab-hottest" tabindex="0" hidden>
+            <h2>最热新闻</h2>
+            <ul>
+                <li>查看当前热门话题与关注焦点</li>
+                <li>快速浏览大家正在讨论的新闻</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
