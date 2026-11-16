@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="贾皓尧的《高级网页设计》课堂实践作品集，收录 HTML、CSS 与响应式布局学习成果。">
+    <meta name="description" content="贾皓尧的《高级网页设计》课堂实践作品集，收录 HTML、CSS、JavaScript、响应式布局与移动端触摸交互学习成果。">
     <title>贾皓尧 | 高级网页设计课堂实践</title>
     <link rel="stylesheet" href="./index.css">
 </head>
@@ -20,6 +20,7 @@
 
             <nav class="site-nav" aria-label="页面导航">
                 <a href="#projects">课程目录</a>
+                <a href="#mobile-events">移动端事件</a>
                 <a href="#skills">能力图谱</a>
                 <a href="#resources">课程资料</a>
                 <a href="#prompt">本页提示词</a>
@@ -38,8 +39,7 @@
                         <span>搭建有层次的网页体验</span>
                     </h1>
                     <p class="hero-lead">
-                        这里收录贾皓尧在《高级网页设计》课堂中的练习与阶段成果，
-                        从 HTML 基础结构出发，逐步掌握 CSS 视觉、盒模型、Flex 布局与响应式设计。
+                        这里收录贾皓尧在《高级网页设计》课堂中的练习与阶段成果，从 HTML 基础结构出发，逐步掌握 CSS 视觉、盒模型、Flex 布局、响应式设计，JavaScript 交互、Swiper 轮播组件，以及移动端触摸事件。
                     </p>
 
                     <div class="hero-actions">
@@ -55,12 +55,12 @@
 
                     <ul class="hero-facts" aria-label="课程概览">
                         <li>
-                            <strong>11</strong>
-                            <span>课程作品</span>
+                            <strong>21</strong>
+                            <span>课程页面</span>
                         </li>
                         <li>
-                            <strong>100%</strong>
-                            <span>原生 HTML / CSS</span>
+                            <strong>Static</strong>
+                            <span>纯静态站点</span>
                         </li>
                         <li>
                             <strong>Responsive</strong>
@@ -96,13 +96,32 @@
             <section class="section" id="projects" aria-labelledby="projects-title">
                 <div class="section-heading">
                     <div>
-                        <span class="section-kicker">Course Index</span>
-                        <h2 id="projects-title">课堂作品与练习</h2>
+                        <span class="section-kicker">Course Index · 17 Entries</span>
+                        <h2 id="projects-title">全部课堂项目与练习</h2>
                     </div>
-                    <p>两个课程文件夹已经合并：这里可以直接进入全部 HTML、CSS 与 JavaScript 课堂练习。</p>
+                    <p>所有课程页面已经集中到本入口：从 HTML、CSS 基础练习到 JavaScript 交互、Swiper 轮播和 Booking 多页导航，共 17 个作品页面。</p>
                 </div>
 
                 <div class="project-grid">
+                    <a class="project-card" href="./news.html" style="--card-accent: #dc2626;">
+                        <div class="card-top">
+                            <span class="tag">最新项目 · 新闻</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>新闻资讯选项卡</h3>
+                        <p>使用选项卡组织新闻分类，练习 ARIA 状态切换、内容面板控制与可复用的 JavaScript 初始化逻辑。</p>
+                        <div class="card-chips"><span class="card-chip">Tab 切换</span><span class="card-chip">ARIA</span><span class="card-chip">交互状态</span></div>
+                    </a>
+
+                    <a class="project-card" href="./js/swiper-task.html" style="--card-accent: #0f766e;">
+                        <div class="card-top">
+                            <span class="tag">最新项目 · Swiper</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>大国重器光影展</h3>
+                        <p>完成四个 Swiper 轮播任务，练习基础初始化、分页导航、自动播放以及六种视觉效果切换。</p>
+                        <div class="card-chips"><span class="card-chip">轮播组件</span><span class="card-chip">自动播放</span><span class="card-chip">效果切换</span></div>
+                    </a>
                     <a class="project-card featured" href="./1.html" style="--card-accent: #8ce9f0;">
                         <div class="card-top">
                             <span class="tag">项目 01 · HTML 基础</span>
@@ -215,6 +234,98 @@
                         <h3>Booking 底部导航</h3>
                         <p>以内联 SVG 图标复刻移动端底部导航，关注触控尺寸与无障碍状态。</p>
                         <div class="card-chips"><span class="card-chip">移动端</span><span class="card-chip">SVG 图标</span></div>
+                    </a>
+
+                    <a class="project-card" href="./booking-nav/search.html" style="--card-accent: #0071c2;">
+                        <div class="card-top">
+                            <span class="tag">Booking · 搜索</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>搜索住宿</h3>
+                        <p>复刻住宿搜索结果页，练习筛选表单、酒店卡片与多页面导航之间的跳转关系。</p>
+                        <div class="card-chips"><span class="card-chip">搜索表单</span><span class="card-chip">结果卡片</span></div>
+                    </a>
+
+                    <a class="project-card" href="./booking-nav/trips.html" style="--card-accent: #0f766e;">
+                        <div class="card-top">
+                            <span class="tag">Booking · 订单</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>我的订单</h3>
+                        <p>以移动端页面呈现行程与订单信息，保持统一底部导航和清晰的空状态布局。</p>
+                        <div class="card-chips"><span class="card-chip">订单列表</span><span class="card-chip">空状态</span></div>
+                    </a>
+
+                    <a class="project-card" href="./booking-nav/saved.html" style="--card-accent: #e11d48;">
+                        <div class="card-top">
+                            <span class="tag">Booking · 收藏</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>已保存</h3>
+                        <p>完成收藏页面的内容结构与状态展示，并通过底部导航连接搜索和账号页面。</p>
+                        <div class="card-chips"><span class="card-chip">收藏状态</span><span class="card-chip">底部导航</span></div>
+                    </a>
+
+                    <a class="project-card" href="./booking-nav/account.html" style="--card-accent: #4f46e5;">
+                        <div class="card-top">
+                            <span class="tag">Booking · 账号</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>我的账号</h3>
+                        <p>复刻账号中心页面，集中展示登录入口与个人功能分组，并保持移动端导航一致。</p>
+                        <div class="card-chips"><span class="card-chip">账号中心</span><span class="card-chip">功能分组</span></div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="section" id="mobile-events" aria-labelledby="mobile-events-title">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Mobile Events · 4 Tasks</span>
+                        <h2 id="mobile-events-title">移动端触摸事件专题</h2>
+                    </div>
+                    <p>任务一记录真实事件顺序，任务二至任务四分别完成手势卡片、图片查看器与摇一摇彩蛋，并包含移动端边界处理和降级方案。</p>
+                </div>
+
+                <div class="project-grid">
+                    <a class="project-card" href="./mobile-events-report.html" style="--card-accent: #7c3aed;">
+                        <div class="card-top">
+                            <span class="tag">任务一 · 观察记录</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>移动端事件侦探</h3>
+                        <p>实测单击、拖动、快滑、双指触摸与长按，记录 touchstart、touchmove、touchend、click 的真实顺序并完成三问答。</p>
+                        <div class="card-chips"><span class="card-chip">事件顺序</span><span class="card-chip">轨迹草图</span><span class="card-chip">验收报告</span></div>
+                    </a>
+
+                    <a class="project-card" href="./mobile-gesture.html" style="--card-accent: #f97316;">
+                        <div class="card-top">
+                            <span class="tag">任务二 · 手势卡片</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>中华美食左右滑动</h3>
+                        <p>四道中华美食通过左右滑动切换，具备 40px 阈值、0.3s 过渡、300ms 冷却和首尾边界提示。</p>
+                        <div class="card-chips"><span class="card-chip">触摸手势</span><span class="card-chip">冷却控制</span><span class="card-chip">pan-y</span></div>
+                    </a>
+
+                    <a class="project-card" href="./mobile-zoom.html" style="--card-accent: #14b8a6;">
+                        <div class="card-top">
+                            <span class="tag">任务三 · 图片查看器</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>双指缩放与拖动</h3>
+                        <p>支持 1×–4× 双指缩放、双击 1×/2× 切换、放大后单指拖动，并在松手和旋转屏幕后保持边界与状态。</p>
+                        <div class="card-chips"><span class="card-chip">中心缩放</span><span class="card-chip">边界限制</span><span class="card-chip">状态保留</span></div>
+                    </a>
+
+                    <a class="project-card" href="./mobile-sensor.html" style="--card-accent: #22c55e;">
+                        <div class="card-top">
+                            <span class="tag">任务四 · 设备传感器</span>
+                            <span class="card-arrow" aria-hidden="true">↗</span>
+                        </div>
+                        <h3>摇一摇今日菜谱</h3>
+                        <p>使用加速度传感器随机抽取菜谱，包含 1.5 秒冷却、iOS 权限按钮、无传感器提示与手动抽取降级方案。</p>
+                        <div class="card-chips"><span class="card-chip">devicemotion</span><span class="card-chip">权限申请</span><span class="card-chip">降级方案</span></div>
                     </a>
                 </div>
             </section>
@@ -341,7 +452,7 @@
                         <h2 id="prompt-title">本页整理说明</h2>
                         <details open>
                             <summary>查看整合与发布规则</summary>
-                            <pre>将“高级网页设计”和“web-workspace”两个课程文件夹中的 HTML、CSS、JavaScript、图片与项目资源合并到同一个可发布目录；所有课程卡片必须指向真实存在的页面，不使用 CDN，并确保 Netlify 从统一根目录发布后不会再出现 404 或空白页。</pre>
+                            <pre>将全部 HTML、CSS、JavaScript、图片与课程资料集中到同一个可发布目录；首页卡片直接连接 21 个真实页面。各页面均使用相对路径，保持无构建步骤的静态站点结构，可直接将整个文件夹拖入 Netlify 发布。Swiper 课堂页按课程要求使用其官方 CDN。</pre>
                         </details>
                     </div>
                 </div>
@@ -349,7 +460,7 @@
         </main>
 
         <footer class="site-footer">
-            <span>© 2026 贾皓尧的《高级网页设计》课堂实践 · 原生 HTML / CSS</span>
+            <span>© 2026 贾皓尧的《高级网页设计》课堂实践 · HTML / CSS / JavaScript</span>
             <a href="#top">回到顶部 ↑</a>
         </footer>
     </div>

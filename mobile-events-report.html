@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<!--
+  姓名：贾皓尧
+  学号：24001011116
+  任务一：移动端事件侦探——观察记录与三问答
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f2ff">
+  <title>任务一 · 移动端事件观察报告</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --jhy_ink: #211b30;
+      --jhy_sub: #6f687d;
+      --jhy_line: #e7e0f4;
+      --jhy_violet: #7c3aed;
+      --jhy_orange: #ea580c;
+      --jhy_green: #0f766e;
+      --jhy_panel: rgba(255, 255, 255, 0.86);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--jhy_ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      line-height: 1.75;
+      background:
+        radial-gradient(circle at 8% 5%, rgba(124, 58, 237, 0.14), transparent 31%),
+        radial-gradient(circle at 94% 92%, rgba(234, 88, 12, 0.11), transparent 31%),
+        #f6f3ff;
+    }
+
+    a {
+      color: var(--jhy_violet);
+    }
+
+    .jhy_page {
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      padding: 26px 18px 56px;
+    }
+
+    .jhy_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .jhy_back {
+      display: inline-flex;
+      align-items: center;
+      min-height: 39px;
+      padding: 0 15px;
+      color: #5b21b6;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #ddd3f7;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .jhy_meta {
+      color: var(--jhy_sub);
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .jhy_hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .jhy_kicker {
+      margin: 0 0 9px;
+      color: var(--jhy_violet);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .jhy_title {
+      margin: 0;
+      font-size: clamp(2.3rem, 6.5vw, 5.3rem);
+      line-height: 0.99;
+      letter-spacing: -0.06em;
+    }
+
+    .jhy_title span {
+      color: var(--jhy_orange);
+    }
+
+    .jhy_lead {
+      margin: 16px 0 0;
+      color: var(--jhy_sub);
+      font-size: 0.96rem;
+    }
+
+    .jhy_identity {
+      padding: 22px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 24px;
+      background: var(--jhy_panel);
+      box-shadow: 0 16px 40px rgba(58, 35, 92, 0.07);
+    }
+
+    .jhy_identity strong,
+    .jhy_identity span {
+      display: block;
+    }
+
+    .jhy_identity strong {
+      font-size: 1rem;
+    }
+
+    .jhy_identity span {
+      color: var(--jhy_sub);
+      font-size: 0.8rem;
+    }
+
+    .jhy_identity .jhy_identity-note {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--jhy_line);
+    }
+
+    .jhy_grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .jhy_section {
+      padding: 24px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 24px;
+      background: var(--jhy_panel);
+      box-shadow: 0 14px 36px rgba(58, 35, 92, 0.055);
+    }
+
+    .jhy_section.jhy_wide {
+      grid-column: 1 / -1;
+    }
+
+    .jhy_section h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      font-size: 1.15rem;
+      line-height: 1.35;
+    }
+
+    .jhy_no {
+      display: grid;
+      flex: none;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 9px;
+      background: var(--jhy_violet);
+    }
+
+    .jhy_section p {
+      margin: 0 0 11px;
+      color: #4c455c;
+      font-size: 0.86rem;
+    }
+
+    .jhy_section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .jhy_section strong {
+      color: var(--jhy_ink);
+    }
+
+    code {
+      padding: 1px 6px;
+      color: #5b21b6;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.85em;
+      border-radius: 5px;
+      background: #f0eaff;
+    }
+
+    .jhy_table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--jhy_line);
+      border-radius: 15px;
+    }
+
+    .jhy_table {
+      width: 100%;
+      min-width: 710px;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .jhy_table th,
+    .jhy_table td {
+      padding: 11px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--jhy_line);
+    }
+
+    .jhy_table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .jhy_table th {
+      color: #4c1d95;
+      font-size: 0.74rem;
+      background: #f4efff;
+    }
+
+    .jhy_table td:first-child {
+      color: var(--jhy_ink);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .jhy_event {
+      color: var(--jhy_green);
+      font-family: Consolas, monospace;
+      font-size: 0.74rem;
+      white-space: nowrap;
+    }
+
+    .jhy_answers {
+      display: grid;
+      gap: 11px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: jhy_answer;
+    }
+
+    .jhy_answers li {
+      position: relative;
+      padding: 13px 14px 13px 46px;
+      color: #4c455c;
+      font-size: 0.82rem;
+      border: 1px solid var(--jhy_line);
+      border-radius: 14px;
+      background: #fbfaff;
+      counter-increment: jhy_answer;
+    }
+
+    .jhy_answers li::before {
+      position: absolute;
+      top: 13px;
+      left: 14px;
+      display: grid;
+      width: 22px;
+      height: 22px;
+      place-items: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      content: counter(jhy_answer);
+      border-radius: 7px;
+      background: var(--jhy_violet);
+    }
+
+    .jhy_trace {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .jhy_trace-card {
+      padding: 12px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 16px;
+      background: #fbfaff;
+    }
+
+    .jhy_trace-card svg {
+      display: block;
+      width: 100%;
+      height: 120px;
+    }
+
+    .jhy_trace-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--jhy_sub);
+      font-size: 0.73rem;
+      text-align: center;
+    }
+
+    .jhy_figures {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+      margin-top: 12px;
+    }
+
+    .jhy_figure {
+      margin: 0;
+      padding: 10px;
+      overflow: hidden;
+      border: 1px solid var(--jhy_line);
+      border-radius: 18px;
+      background: #fbfaff;
+    }
+
+    .jhy_figure img {
+      display: block;
+      width: 100%;
+      max-height: 560px;
+      object-fit: contain;
+      object-position: top;
+      border-radius: 12px;
+      background: #0c0b12;
+    }
+
+    .jhy_figure figcaption {
+      margin-top: 9px;
+      color: var(--jhy_sub);
+      font-size: 0.73rem;
+      text-align: center;
+    }
+
+    .jhy_links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .jhy_link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 0 13px;
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 10px;
+      background: var(--jhy_violet);
+    }
+
+    .jhy_link.jhy_link-alt {
+      color: #075985;
+      background: #e0f2fe;
+    }
+
+    .jhy_prompt {
+      margin: 0;
+      padding: 15px;
+      overflow-wrap: anywhere;
+      color: #3f3651;
+      font-family: Consolas, "Microsoft YaHei", monospace;
+      font-size: 0.76rem;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      border: 1px solid #e7dcff;
+      border-radius: 14px;
+      background: #faf7ff;
+    }
+
+    .jhy_note {
+      padding: 14px 16px;
+      color: #7c3a12;
+      font-size: 0.8rem;
+      border-left: 4px solid var(--jhy_orange);
+      border-radius: 0 13px 13px 0;
+      background: #fff8ef;
+    }
+
+    @media (max-width: 780px) {
+      .jhy_hero,
+      .jhy_grid {
+        grid-template-columns: 1fr;
+      }
+
+      .jhy_section.jhy_wide {
+        grid-column: auto;
+      }
+
+      .jhy_meta {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .jhy_page {
+        padding-top: 18px;
+      }
+
+      .jhy_hero {
+        gap: 18px;
+      }
+
+      .jhy_figures,
+      .jhy_trace {
+        grid-template-columns: 1fr;
+      }
+
+      .jhy_section {
+        padding: 19px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="jhy_page">
+    <header class="jhy_topbar">
+      <a class="jhy_back" href="./index.html">← 返回作品集</a>
+      <div class="jhy_meta">贾皓尧 · 24001011116<br>测试日期：2026-11-16</div>
+    </header>
+
+    <main>
+      <section class="jhy_hero" aria-labelledby="jhy_title">
+        <div>
+          <p class="jhy_kicker">任务一 · 观察记录</p>
+          <h1 class="jhy_title" id="jhy_title">一次拖动，<span>到底发生了什么？</span></h1>
+          <p class="jhy_lead">使用 Chrome DevTools 的 390×844 移动设备模式与触摸事件模拟，对课程页面的“事件探针”执行五种操作，并记录真实触发顺序。</p>
+        </div>
+        <aside class="jhy_identity">
+          <strong>贾皓尧</strong>
+          <span>学号 24001011116</span>
+          <span class="jhy_identity-note">测试环境：Chrome 156 · 移动设备模式 · 触摸模拟</span>
+        </aside>
+      </section>
+
+      <div class="jhy_grid">
+        <section class="jhy_section jhy_wide" aria-labelledby="jhy_sequence-title">
+          <h2 id="jhy_sequence-title"><span class="jhy_no">1</span>五种操作的事件记录</h2>
+          <div class="jhy_table-wrap">
+            <table class="jhy_table">
+              <thead>
+                <tr>
+                  <th>操作</th>
+                  <th>实际触发顺序</th>
+                  <th>计数 / 观察</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>单击</td>
+                  <td><span class="jhy_event">touchstart → touchend → click</span></td>
+                  <td>move 0 次；click 在 touchend 之后补发。</td>
+                </tr>
+                <tr>
+                  <td>向上拖动</td>
+                  <td><span class="jhy_event">touchstart → 11×touchmove → touchend</span></td>
+                  <td>纵向移动约 108px；拖动距离较大时没有补发 click。</td>
+                </tr>
+                <tr>
+                  <td>向左快速滑</td>
+                  <td><span class="jhy_event">touchstart → 4×touchmove → touchend</span></td>
+                  <td>横向移动约 220px；快速滑动同样没有补发 click。</td>
+                </tr>
+                <tr>
+                  <td>双指触摸</td>
+                  <td><span class="jhy_event">2×touchstart → 5×touchmove → 2×touchend</span></td>
+                  <td>探针每个事件只读取 touches[0]，所以日志只显示第一指坐标；实际事件中 touches.length 为 2。</td>
+                </tr>
+                <tr>
+                  <td>长按后抬起</td>
+                  <td><span class="jhy_event">touchstart → 等待约 900ms → touchend → click</span></td>
+                  <td>本次探针未监听 contextmenu；长按抬起后 Chromium 仍补发了 click。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="jhy_section" aria-labelledby="jhy_answers-title">
+          <h2 id="jhy_answers-title"><span class="jhy_no">2</span>三个验收问题</h2>
+          <ol class="jhy_answers">
+            <li><strong>一次拖动里 touchmove 大约触发多少次？</strong><br>没有固定次数。本次 108px 的拖动记录到 11 次 move，和移动距离、滑动速度以及浏览器采样频率有关：移动越远、速度越慢，通常采样次数越多。</li>
+            <li><strong>click 出现在 touchend 之前还是之后？</strong><br>正常点击时 click 出现在 touchend 之后；本次点击约为 touchstart → touchend → click。明显拖动或快速滑动后，浏览器通常不再补发 click。</li>
+            <li><strong>把 touchend 换成 touchcancel 会发生什么？</strong><br>正常抬手不会再执行业务逻辑；touchcancel 表示手势被系统或浏览器中断，例如页面滚动、来电或系统手势接管。代码应重置拖动状态并回滚预览，而不是像正常完成一样提交结果。</li>
+          </ol>
+        </section>
+
+        <section class="jhy_section" aria-labelledby="jhy_trace_title">
+          <h2 id="jhy_trace_title"><span class="jhy_no">3</span>轨迹草图</h2>
+          <p>坐标日志显示，手指从起点连续经过多个采样点后离开探针区域。下面的示意图对应“向上拖动”和“向左快速滑”两条路径。</p>
+          <div class="jhy_trace">
+            <div class="jhy_trace-card">
+              <svg viewBox="0 0 240 120" role="img" aria-label="向上拖动轨迹示意">
+                <defs>
+                  <marker id="jhy_arrow-up" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7c3aed"></path></marker>
+                </defs>
+                <rect x="8" y="8" width="224" height="104" rx="14" fill="#f3efff"></rect>
+                <path d="M120 96 C118 80, 123 64, 120 48 C117 34, 122 25, 120 18" fill="none" stroke="#7c3aed" stroke-width="4" stroke-linecap="round" marker-end="url(#jhy_arrow-up)"></path>
+                <circle cx="120" cy="96" r="5" fill="#f97316"></circle>
+                <text x="136" y="98" fill="#655b75" font-size="10">起点</text>
+                <text x="134" y="21" fill="#655b75" font-size="10">终点</text>
+              </svg>
+              <span>向上拖动：约 11 个 touchmove</span>
+            </div>
+            <div class="jhy_trace-card">
+              <svg viewBox="0 0 240 120" role="img" aria-label="向左快速滑动轨迹示意">
+                <defs>
+                  <marker id="jhy_arrow-left" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#0f766e"></path></marker>
+                </defs>
+                <rect x="8" y="8" width="224" height="104" rx="14" fill="#effaf7"></rect>
+                <path d="M202 60 C176 58, 148 62, 122 60 C94 58, 68 62, 40 60" fill="none" stroke="#0f766e" stroke-width="4" stroke-linecap="round" marker-end="url(#jhy_arrow-left)"></path>
+                <circle cx="202" cy="60" r="5" fill="#f97316"></circle>
+                <text x="183" y="80" fill="#655b75" font-size="10">起点</text>
+                <text x="35" y="80" fill="#655b75" font-size="10">终点</text>
+              </svg>
+              <span>向左快速滑：约 4 个 touchmove</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="jhy_section" aria-labelledby="jhy_pitfall_title">
+          <h2 id="jhy_pitfall_title"><span class="jhy_no">4</span>一个坑与解决办法</h2>
+          <p><strong>坑：</strong>在任务二中，如果只监听触摸坐标而不处理浏览器默认滚动，横向滑动容易先被页面纵向滚动抢走，导致坐标断断续续，甚至触发 touchend 时已经偏离手势方向。</p>
+          <p><strong>解决：</strong>卡片容器使用 <code>touch-action: pan-y</code>，保留纵向页面滚动；在 touchmove 中仅在横向位移明显更大时调用 <code>preventDefault()</code>。这样左右滑动由脚本接管，上下滑动仍可正常浏览页面。</p>
+          <div class="jhy_note">任务三还进一步在图片容器上使用 <code>touch-action: none</code>，因为图片查看器需要完全接管双指缩放和拖动，不能让浏览器同时执行页面缩放或滚动。</div>
+        </section>
+
+        <section class="jhy_section" aria-labelledby="jhy_prompt_title">
+          <h2 id="jhy_prompt_title"><span class="jhy_no">5</span>本次 AI 提示词记录</h2>
+          <pre class="jhy_prompt">1. 原始任务提示词：
+“这堂课有新的项目了，要按照链接里的要求完成，完成后发布 GitHub，项目就在之前上传 GitHub 仓库的文件夹里完成，完成任务一到任务四。”
+
+2. 实现提示词摘要：
+“读取 mobile-events-lesson 页面任务一到任务四；在现有静态作品集中创建 mobile-gesture.html、mobile-zoom.html、mobile-sensor.html 和任务一报告；严格使用 jhy_ 前缀、姓名贾皓尧、学号 24001011116，并完成手机端交互、边界限制、权限与降级逻辑。”
+
+3. 验证提示词摘要：
+“在 390×844 移动设备模式下逐项测试滑动阈值、300ms 冷却、双指缩放、双击 1×/2×、边界限制、摇动冷却和无传感器降级，并生成运行截图。”</pre>
+        </section>
+
+        <section class="jhy_section jhy_wide" aria-labelledby="jhy_screenshots_title">
+          <h2 id="jhy_screenshots_title"><span class="jhy_no">6</span>运行截图与项目入口</h2>
+          <p>截图均在 390×844 移动设备视口中生成。任务四在无真实传感器时展示降级按钮与手动抽取结果。</p>
+          <div class="jhy_figures">
+            <figure class="jhy_figure">
+              <img src="./mobile-events-assets/task1-event-probe.png" alt="任务一事件探针运行截图">
+              <figcaption>任务一 · 拖动事件探针</figcaption>
+            </figure>
+            <figure class="jhy_figure">
+              <img src="./mobile-events-assets/task2-gesture.png" alt="任务二中华美食手势卡片截图">
+              <figcaption>任务二 · 中华美食卡片</figcaption>
+            </figure>
+            <figure class="jhy_figure">
+              <img src="./mobile-events-assets/task3-zoom.png" alt="任务三图片查看器放大截图">
+              <figcaption>任务三 · 图片查看器</figcaption>
+            </figure>
+            <figure class="jhy_figure">
+              <img src="./mobile-events-assets/task4-sensor.png" alt="任务四摇一摇菜谱降级截图">
+              <figcaption>任务四 · 摇一摇与降级</figcaption>
+            </figure>
+          </div>
+          <div class="jhy_links">
+            <a class="jhy_link" href="./mobile-gesture.html">打开任务二</a>
+            <a class="jhy_link" href="./mobile-zoom.html">打开任务三</a>
+            <a class="jhy_link" href="./mobile-sensor.html">打开任务四</a>
+            <a class="jhy_link jhy_link-alt" href="./index.html#mobile-events">返回专题入口</a>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

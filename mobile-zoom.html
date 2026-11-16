@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<!--
+  姓名：贾皓尧
+  学号：24001011116
+  任务三：移动端图片查看器——双指缩放、双击放大与拖动
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0912">
+  <title>任务三 · 移动端图片查看器</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --jhy_ink: #f8f7ff;
+      --jhy_sub: #aaa5bb;
+      --jhy_line: rgba(255, 255, 255, 0.12);
+      --jhy_accent: #a78bfa;
+      --jhy_orange: #fb923c;
+      --jhy_panel: rgba(23, 20, 35, 0.86);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--jhy_ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 8% 7%, rgba(124, 58, 237, 0.28), transparent 30%),
+        radial-gradient(circle at 94% 92%, rgba(249, 115, 22, 0.2), transparent 35%),
+        #0a0912;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .jhy_page {
+      width: min(100%, 620px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 16px max(30px, env(safe-area-inset-bottom));
+    }
+
+    .jhy_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .jhy_back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 0 14px;
+      color: #e9e4ff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--jhy_line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .jhy_tag {
+      padding: 6px 12px;
+      color: #ddd6fe;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      border-radius: 999px;
+      background: rgba(124, 58, 237, 0.22);
+    }
+
+    .jhy_hero {
+      padding: 2px 5px 20px;
+    }
+
+    .jhy_kicker {
+      margin: 0 0 9px;
+      color: var(--jhy_accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .jhy_title {
+      margin: 0;
+      font-size: clamp(2rem, 10vw, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .jhy_title span {
+      color: var(--jhy_orange);
+    }
+
+    .jhy_lead {
+      margin: 13px 0 0;
+      color: var(--jhy_sub);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .jhy_viewer-shell {
+      position: relative;
+      padding: 8px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 26px 70px rgba(0, 0, 0, 0.36);
+    }
+
+    .jhy_viewport {
+      position: relative;
+      height: min(60vh, 520px);
+      min-height: 390px;
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      border-radius: 21px;
+      background:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%),
+        #0d0b15;
+      background-size: 22px 22px;
+    }
+
+    .jhy_image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: translate3d(0, 0, 0) scale(1);
+      transform-origin: 0 0;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .jhy_image.jhy_is-animating {
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .jhy_scale-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      min-width: 66px;
+      padding: 7px 11px;
+      color: #fff;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      background: rgba(10, 9, 18, 0.66);
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+    }
+
+    .jhy_gesture-hint {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      z-index: 2;
+      padding: 6px 10px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(10, 9, 18, 0.58);
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .jhy_toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 15px 8px 3px;
+    }
+
+    .jhy_help {
+      margin: 0;
+      color: var(--jhy_sub);
+      font-size: 0.76rem;
+      line-height: 1.55;
+    }
+
+    .jhy_reset {
+      flex: none;
+      min-height: 38px;
+      padding: 0 15px;
+      color: #1b1429;
+      font-size: 12px;
+      font-weight: 800;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ddd6fe, #fdba74);
+      cursor: pointer;
+    }
+
+    .jhy_status {
+      min-height: 22px;
+      margin: 12px 4px 0;
+      color: var(--jhy_sub);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .jhy_notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    .jhy_note-card {
+      padding: 13px 12px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 17px;
+      background: var(--jhy_panel);
+    }
+
+    .jhy_note-card strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #f4f1ff;
+      font-size: 0.74rem;
+    }
+
+    .jhy_note-card span {
+      color: var(--jhy_sub);
+      font-size: 0.68rem;
+      line-height: 1.55;
+    }
+
+    .jhy_math-note {
+      margin-top: 17px;
+      padding: 16px 18px;
+      color: #cfc8df;
+      font-size: 0.77rem;
+      line-height: 1.8;
+      border-left: 3px solid var(--jhy_accent);
+      border-radius: 0 16px 16px 0;
+      background: rgba(124, 58, 237, 0.1);
+    }
+
+    .jhy_math-note code {
+      color: #ddd6fe;
+      font-family: Consolas, monospace;
+    }
+
+    @media (max-width: 420px) {
+      .jhy_notes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .jhy_image.jhy_is-animating {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="jhy_page">
+    <header class="jhy_topbar">
+      <a class="jhy_back" href="./index.html">← 返回作品集</a>
+      <span class="jhy_tag">任务三 · 多指手势</span>
+    </header>
+
+    <main>
+      <section class="jhy_hero" aria-labelledby="jhy_title">
+        <p class="jhy_kicker">图片查看器 · 1×–4×</p>
+        <h1 class="jhy_title" id="jhy_title">放大细节，<span>也不迷失方向</span></h1>
+        <p class="jhy_lead">双指缩放请用手机打开。双击在 1× 与 2× 之间切换；放大后可单指拖动，松手自动限制在图片边界内。</p>
+      </section>
+
+      <section class="jhy_viewer-shell" aria-label="图片查看器">
+        <div class="jhy_viewport" id="jhy_viewport">
+          <img class="jhy_image" id="jhy_image" src="./js/swiper-imgs/fast_1.jpg" alt="中国天眼 FAST 射电望远镜">
+          <span class="jhy_scale-badge" id="jhy_scaleBadge" aria-live="polite">1.00×</span>
+          <span class="jhy_gesture-hint">双击 1× / 2× · 双指 1×–4×</span>
+        </div>
+        <div class="jhy_toolbar">
+          <p class="jhy_help">缩放时始终固定两指中点下的内容，避免图片突然跳走。</p>
+          <button class="jhy_reset" id="jhy_resetButton" type="button">还原 1×</button>
+        </div>
+      </section>
+
+      <p class="jhy_status" id="jhy_status" role="status" aria-live="polite">等待手势输入</p>
+
+      <section class="jhy_notes" aria-label="实现要点">
+        <article class="jhy_note-card">
+          <strong>中心缩放</strong>
+          <span>用缩放前后的中点与比例反推位移，保证两指中心内容不动。</span>
+        </article>
+        <article class="jhy_note-card">
+          <strong>边界限制</strong>
+          <span>缩放范围限制在 1×–4×，拖动位移限制在图片边缘以内。</span>
+        </article>
+        <article class="jhy_note-card">
+          <strong>状态保留</strong>
+          <span>屏幕旋转后重新计算边界，但不清空当前缩放和位置。</span>
+        </article>
+      </section>
+
+      <p class="jhy_math-note">缩放不跳的关键：<code>newT = currentMid − (startMid − startT) × (newScale / startScale)</code>。这里保留两指起点下的同一图像坐标，再把该坐标移动到新的两指中点。</p>
+    </main>
+  </div>
+
+  <script>
+    const jhy_viewport = document.getElementById("jhy_viewport");
+    const jhy_image = document.getElementById("jhy_image");
+    const jhy_scaleBadge = document.getElementById("jhy_scaleBadge");
+    const jhy_resetButton = document.getElementById("jhy_resetButton");
+    const jhy_status = document.getElementById("jhy_status");
+
+    const jhy_minScale = 1;
+    const jhy_maxScale = 4;
+    const jhy_doubleTapDelay = 300;
+    const jhy_tapTolerance = 28;
+
+    const jhy_state = {
+      jhy_scale: 1,
+      jhy_x: 0,
+      jhy_y: 0
+    };
+
+    let jhy_mode = "idle";
+    let jhy_isMoved = false;
+    let jhy_startX = 0;
+    let jhy_startY = 0;
+    let jhy_startDistance = 0;
+    let jhy_startMidX = 0;
+    let jhy_startMidY = 0;
+    let jhy_startState = { jhy_scale: 1, jhy_x: 0, jhy_y: 0 };
+    let jhy_lastTapAt = 0;
+    let jhy_lastTapX = 0;
+    let jhy_lastTapY = 0;
+    let jhy_animationTimer = 0;
+
+    function jhy_getDistance(jhy_touches) {
+      const jhy_dx = jhy_touches[0].clientX - jhy_touches[1].clientX;
+      const jhy_dy = jhy_touches[0].clientY - jhy_touches[1].clientY;
+      return Math.hypot(jhy_dx, jhy_dy);
+    }
+
+    function jhy_getMidpoint(jhy_touches) {
+      return {
+        jhy_x: (jhy_touches[0].clientX + jhy_touches[1].clientX) / 2,
+        jhy_y: (jhy_touches[0].clientY + jhy_touches[1].clientY) / 2
+      };
+    }
+
+    function jhy_clampState() {
+      const jhy_width = jhy_viewport.clientWidth;
+      const jhy_height = jhy_viewport.clientHeight;
+
+      jhy_state.jhy_scale = Math.min(jhy_maxScale, Math.max(jhy_minScale, jhy_state.jhy_scale));
+
+      if (jhy_state.jhy_scale <= 1.001) {
+        jhy_state.jhy_scale = 1;
+        jhy_state.jhy_x = 0;
+        jhy_state.jhy_y = 0;
+        return;
+      }
+
+      const jhy_minX = jhy_width * (1 - jhy_state.jhy_scale);
+      const jhy_minY = jhy_height * (1 - jhy_state.jhy_scale);
+      jhy_state.jhy_x = Math.min(0, Math.max(jhy_minX, jhy_state.jhy_x));
+      jhy_state.jhy_y = Math.min(0, Math.max(jhy_minY, jhy_state.jhy_y));
+    }
+
+    function jhy_applyTransform(jhy_shouldAnimate = false) {
+      jhy_image.classList.toggle("jhy_is-animating", jhy_shouldAnimate);
+      jhy_image.style.transform = `translate3d(${jhy_state.jhy_x}px, ${jhy_state.jhy_y}px, 0) scale(${jhy_state.jhy_scale})`;
+      jhy_scaleBadge.textContent = `${jhy_state.jhy_scale.toFixed(2)}×`;
+    }
+
+    function jhy_setStatus(jhy_message) {
+      jhy_status.textContent = jhy_message;
+    }
+
+    function jhy_animateTo(jhy_scale, jhy_x, jhy_y) {
+      jhy_state.jhy_scale = jhy_scale;
+      jhy_state.jhy_x = jhy_x;
+      jhy_state.jhy_y = jhy_y;
+      jhy_clampState();
+      window.clearTimeout(jhy_animationTimer);
+      jhy_applyTransform(true);
+      jhy_animationTimer = window.setTimeout(() => {
+        jhy_image.classList.remove("jhy_is-animating");
+      }, 270);
+    }
+
+    function jhy_reset(jhy_wipeStatus = true) {
+      jhy_animateTo(1, 0, 0);
+      if (jhy_wipeStatus) {
+        jhy_setStatus("已还原为 1×，图片自动居中");
+      }
+    }
+
+    function jhy_toggleZoom(jhy_tapX, jhy_tapY) {
+      if (jhy_state.jhy_scale > 1.5) {
+        jhy_reset();
+        return;
+      }
+
+      const jhy_targetScale = 2;
+      const jhy_ratio = jhy_targetScale / jhy_state.jhy_scale;
+      const jhy_targetX = jhy_tapX - (jhy_tapX - jhy_state.jhy_x) * jhy_ratio;
+      const jhy_targetY = jhy_tapY - (jhy_tapY - jhy_state.jhy_y) * jhy_ratio;
+      jhy_animateTo(jhy_targetScale, jhy_targetX, jhy_targetY);
+      jhy_setStatus("双击放大到 2×");
+    }
+
+    function jhy_onTouchStart(jhy_event) {
+      window.clearTimeout(jhy_animationTimer);
+      jhy_image.classList.remove("jhy_is-animating");
+      jhy_isMoved = false;
+      jhy_startState = {
+        jhy_scale: jhy_state.jhy_scale,
+        jhy_x: jhy_state.jhy_x,
+        jhy_y: jhy_state.jhy_y
+      };
+
+      if (jhy_event.touches.length >= 2) {
+        const jhy_midpoint = jhy_getMidpoint(jhy_event.touches);
+        const jhy_rect = jhy_viewport.getBoundingClientRect();
+        jhy_mode = "pinch";
+        jhy_startDistance = jhy_getDistance(jhy_event.touches);
+        jhy_startMidX = jhy_midpoint.jhy_x - jhy_rect.left;
+        jhy_startMidY = jhy_midpoint.jhy_y - jhy_rect.top;
+        jhy_setStatus("双指缩放中");
+        return;
+      }
+
+      const jhy_touch = jhy_event.touches[0];
+      jhy_mode = "drag";
+      jhy_startX = jhy_touch.clientX;
+      jhy_startY = jhy_touch.clientY;
+    }
+
+    function jhy_onTouchMove(jhy_event) {
+      if (jhy_event.cancelable) {
+        jhy_event.preventDefault();
+      }
+
+      if (jhy_mode === "pinch" && jhy_event.touches.length >= 2) {
+        const jhy_rect = jhy_viewport.getBoundingClientRect();
+        const jhy_midpoint = jhy_getMidpoint(jhy_event.touches);
+        const jhy_currentMidX = jhy_midpoint.jhy_x - jhy_rect.left;
+        const jhy_currentMidY = jhy_midpoint.jhy_y - jhy_rect.top;
+        const jhy_distance = jhy_getDistance(jhy_event.touches);
+        const jhy_rawScale = jhy_startState.jhy_scale * (jhy_distance / Math.max(1, jhy_startDistance));
+        const jhy_targetScale = Math.min(jhy_maxScale, Math.max(jhy_minScale, jhy_rawScale));
+        const jhy_scaleRatio = jhy_targetScale / jhy_startState.jhy_scale;
+
+        jhy_state.jhy_scale = jhy_targetScale;
+        jhy_state.jhy_x = jhy_currentMidX - (jhy_startMidX - jhy_startState.jhy_x) * jhy_scaleRatio;
+        jhy_state.jhy_y = jhy_currentMidY - (jhy_startMidY - jhy_startState.jhy_y) * jhy_scaleRatio;
+        jhy_clampState();
+        jhy_applyTransform(false);
+        jhy_isMoved = true;
+        jhy_setStatus(`双指缩放 ${jhy_state.jhy_scale.toFixed(2)}×`);
+        return;
+      }
+
+      if (jhy_mode === "drag" && jhy_event.touches.length === 1) {
+        const jhy_touch = jhy_event.touches[0];
+        const jhy_deltaX = jhy_touch.clientX - jhy_startX;
+        const jhy_deltaY = jhy_touch.clientY - jhy_startY;
+
+        if (Math.abs(jhy_deltaX) > 4 || Math.abs(jhy_deltaY) > 4) {
+          jhy_isMoved = true;
+        }
+
+        if (jhy_state.jhy_scale <= 1) {
+          return;
+        }
+
+        jhy_state.jhy_x = jhy_startState.jhy_x + jhy_deltaX;
+        jhy_state.jhy_y = jhy_startState.jhy_y + jhy_deltaY;
+        jhy_clampState();
+        jhy_applyTransform(false);
+        jhy_setStatus("单指拖动查看细节");
+      }
+    }
+
+    function jhy_onTouchEnd(jhy_event) {
+      if (jhy_mode === "pinch") {
+        const jhy_remainingTouch = jhy_event.touches[0];
+        if (jhy_remainingTouch && jhy_state.jhy_scale > 1) {
+          jhy_mode = "drag";
+          jhy_startX = jhy_remainingTouch.clientX;
+          jhy_startY = jhy_remainingTouch.clientY;
+          jhy_startState = {
+            jhy_scale: jhy_state.jhy_scale,
+            jhy_x: jhy_state.jhy_x,
+            jhy_y: jhy_state.jhy_y
+          };
+        } else {
+          jhy_mode = "idle";
+          jhy_clampState();
+          jhy_applyTransform(true);
+        }
+        return;
+      }
+
+      if (jhy_mode !== "drag") {
+        return;
+      }
+
+      jhy_mode = "idle";
+      const jhy_touch = jhy_event.changedTouches[0];
+      const jhy_rect = jhy_viewport.getBoundingClientRect();
+      const jhy_tapX = jhy_touch.clientX - jhy_rect.left;
+      const jhy_tapY = jhy_touch.clientY - jhy_rect.top;
+
+      if (!jhy_isMoved) {
+        const jhy_now = Date.now();
+        const jhy_isDoubleTap = jhy_now - jhy_lastTapAt < jhy_doubleTapDelay
+          && Math.hypot(jhy_tapX - jhy_lastTapX, jhy_tapY - jhy_lastTapY) < jhy_tapTolerance;
+
+        if (jhy_isDoubleTap) {
+          jhy_lastTapAt = 0;
+          jhy_toggleZoom(jhy_tapX, jhy_tapY);
+          return;
+        }
+
+        jhy_lastTapAt = jhy_now;
+        jhy_lastTapX = jhy_tapX;
+        jhy_lastTapY = jhy_tapY;
+      }
+
+      jhy_clampState();
+      jhy_applyTransform(true);
+      if (jhy_state.jhy_scale <= 1) {
+        jhy_setStatus("已回到 1×，图片自动居中");
+      } else {
+        jhy_setStatus("松手后已限制在边界内");
+      }
+    }
+
+    function jhy_onTouchCancel() {
+      jhy_mode = "idle";
+      jhy_isMoved = false;
+      jhy_clampState();
+      jhy_applyTransform(true);
+      jhy_setStatus("触摸被系统中断，状态已恢复");
+    }
+
+    jhy_resetButton.addEventListener("click", () => jhy_reset());
+    jhy_viewport.addEventListener("touchstart", jhy_onTouchStart, { passive: true });
+    jhy_viewport.addEventListener("touchmove", jhy_onTouchMove, { passive: false });
+    jhy_viewport.addEventListener("touchend", jhy_onTouchEnd);
+    jhy_viewport.addEventListener("touchcancel", jhy_onTouchCancel);
+
+    window.addEventListener("resize", () => {
+      window.requestAnimationFrame(() => {
+        jhy_clampState();
+        jhy_applyTransform(false);
+      });
+    });
+
+    window.addEventListener("orientationchange", () => {
+      window.setTimeout(() => {
+        jhy_clampState();
+        jhy_applyTransform(false);
+      }, 180);
+    });
+
+    jhy_image.addEventListener("load", () => {
+      jhy_applyTransform(false);
+      jhy_setStatus("双指缩放请用手机打开；桌面可双击或点击还原");
+    });
+
+    jhy_applyTransform(false);
+  </script>
+</body>
+</html>

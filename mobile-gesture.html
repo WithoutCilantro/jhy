@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<!--
+  姓名：贾皓尧
+  学号：24001011116
+  任务二：手势卡片——左右滑动切换中华美食
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#171126">
+  <title>任务二 · 中华美食手势卡片</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --jhy_ink: #20172f;
+      --jhy_sub: #746b82;
+      --jhy_line: rgba(62, 42, 92, 0.12);
+      --jhy_purple: #7c3aed;
+      --jhy_card-bg: linear-gradient(135deg, #f97316, #dc2626);
+      --jhy_shadow: 0 26px 60px rgba(48, 25, 81, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--jhy_ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(249, 115, 22, 0.18), transparent 31%),
+        radial-gradient(circle at 95% 80%, rgba(124, 58, 237, 0.16), transparent 34%),
+        #f6f2ff;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .jhy_page {
+      width: min(100%, 540px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(20px, env(safe-area-inset-top)) 18px max(34px, env(safe-area-inset-bottom));
+    }
+
+    .jhy_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .jhy_back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 0 14px;
+      color: #5b21b6;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #ddd3f7;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 4px 16px rgba(52, 31, 87, 0.06);
+    }
+
+    .jhy_tag {
+      padding: 6px 12px;
+      color: #7c3aed;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      background: #eee8ff;
+    }
+
+    .jhy_hero {
+      margin-bottom: 22px;
+    }
+
+    .jhy_kicker {
+      margin: 0 0 8px;
+      color: var(--jhy_purple);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .jhy_title {
+      margin: 0;
+      font-size: clamp(2rem, 10vw, 3.2rem);
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    .jhy_title span {
+      color: var(--jhy_purple);
+    }
+
+    .jhy_lead {
+      max-width: 34rem;
+      margin: 13px 0 0;
+      color: var(--jhy_sub);
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    .jhy_stage {
+      position: relative;
+      display: grid;
+      min-height: 430px;
+      align-items: center;
+      touch-action: pan-y;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+      border-radius: 34px;
+    }
+
+    .jhy_food-card {
+      position: relative;
+      width: 100%;
+      min-height: 408px;
+      padding: 24px;
+      overflow: hidden;
+      color: #fff;
+      border-radius: 32px;
+      background: var(--jhy_card-bg);
+      box-shadow: var(--jhy_shadow);
+      transform: translate3d(0, 0, 0) rotate(0);
+      opacity: 1;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+      will-change: transform, opacity;
+    }
+
+    .jhy_food-card::before,
+    .jhy_food-card::after {
+      position: absolute;
+      content: "";
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.13);
+      pointer-events: none;
+    }
+
+    .jhy_food-card::before {
+      top: -70px;
+      right: -52px;
+      width: 190px;
+      height: 190px;
+    }
+
+    .jhy_food-card::after {
+      right: 48px;
+      bottom: -84px;
+      width: 150px;
+      height: 150px;
+      background: rgba(24, 16, 38, 0.12);
+    }
+
+    .jhy_food-card.jhy_is-exit-left {
+      transform: translate3d(-118%, 0, 0) rotate(-4deg);
+      opacity: 0;
+    }
+
+    .jhy_food-card.jhy_is-exit-right {
+      transform: translate3d(118%, 0, 0) rotate(4deg);
+      opacity: 0;
+    }
+
+    .jhy_food-card.jhy_is-enter-right {
+      transform: translate3d(118%, 0, 0) rotate(4deg);
+      opacity: 0;
+      transition: none;
+    }
+
+    .jhy_food-card.jhy_is-enter-left {
+      transform: translate3d(-118%, 0, 0) rotate(-4deg);
+      opacity: 0;
+      transition: none;
+    }
+
+    .jhy_card-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .jhy_region {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 11px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      background: rgba(27, 19, 40, 0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .jhy_hint-icon {
+      font-size: 17px;
+      opacity: 0.78;
+    }
+
+    .jhy_emoji {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 116px;
+      height: 116px;
+      margin: 28px 0 17px;
+      place-items: center;
+      font-size: 66px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 34px;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(10px);
+    }
+
+    .jhy_dish-name {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .jhy_dish-desc {
+      position: relative;
+      z-index: 1;
+      max-width: 22rem;
+      margin: 11px 0 0;
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.9rem;
+      line-height: 1.75;
+    }
+
+    .jhy_tags {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .jhy_tag-item {
+      padding: 6px 10px;
+      color: rgba(255, 255, 255, 0.93);
+      font-size: 11px;
+      border-radius: 999px;
+      background: rgba(27, 19, 40, 0.18);
+    }
+
+    .jhy_controls {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 45px 1fr 45px;
+      align-items: center;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .jhy_nav-button {
+      display: grid;
+      width: 45px;
+      height: 45px;
+      padding: 0;
+      place-items: center;
+      color: #421b7a;
+      font-size: 20px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.88);
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .jhy_nav-button:active {
+      transform: scale(0.92);
+      background: #fff;
+    }
+
+    .jhy_progress {
+      text-align: center;
+    }
+
+    .jhy_progress strong {
+      display: block;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+
+    .jhy_dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .jhy_dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.43);
+      transition: width 0.25s ease, background 0.25s ease;
+    }
+
+    .jhy_dot.jhy_is-active {
+      width: 22px;
+      background: #fff;
+    }
+
+    .jhy_status {
+      min-height: 24px;
+      margin: 14px 0 0;
+      color: var(--jhy_sub);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .jhy_status.jhy_is-warning {
+      color: #c2410c;
+      font-weight: 700;
+    }
+
+    .jhy_instruction {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .jhy_instruction-card {
+      padding: 14px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 8px 26px rgba(55, 32, 87, 0.05);
+    }
+
+    .jhy_instruction-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+    }
+
+    .jhy_instruction-card span {
+      color: var(--jhy_sub);
+      font-size: 0.73rem;
+      line-height: 1.55;
+    }
+
+    .jhy_sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 720px) {
+      .jhy_page {
+        padding-top: 32px;
+      }
+
+      .jhy_stage {
+        min-height: 455px;
+      }
+
+      .jhy_food-card {
+        min-height: 430px;
+        padding: 30px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .jhy_food-card,
+      .jhy_dot,
+      .jhy_nav-button {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="jhy_page">
+    <header class="jhy_topbar">
+      <a class="jhy_back" href="./index.html">← 返回作品集</a>
+      <span class="jhy_tag">任务二 · 手势识别</span>
+    </header>
+
+    <main>
+      <section class="jhy_hero" aria-labelledby="jhy_title">
+        <p class="jhy_kicker">中华美食 · 左右滑动</p>
+        <h1 class="jhy_title" id="jhy_title">用指尖，<span>翻一页中国味道</span></h1>
+        <p class="jhy_lead">在卡片上向左或向右滑动。位移超过 40px 才会切换，并带有 300ms 冷却，避免快速连滑一次跳过两张。</p>
+      </section>
+
+      <section class="jhy_stage" id="jhy_stage" aria-label="中华美食手势卡片">
+        <article class="jhy_food-card" id="jhy_foodCard" aria-live="polite">
+          <div class="jhy_card-top">
+            <span class="jhy_region" id="jhy_region">北京 · 京味</span>
+            <span class="jhy_hint-icon" aria-hidden="true">↔</span>
+          </div>
+          <div class="jhy_emoji" id="jhy_emoji" aria-hidden="true">🦆</div>
+          <h2 class="jhy_dish-name" id="jhy_dishName">北京烤鸭</h2>
+          <p class="jhy_dish-desc" id="jhy_dishDesc">果木炭火烤制，鸭皮酥脆透亮，配薄饼、甜面酱与葱丝卷食。</p>
+          <div class="jhy_tags" id="jhy_tags">
+            <span class="jhy_tag-item">酥脆</span>
+            <span class="jhy_tag-item">京味经典</span>
+          </div>
+
+          <div class="jhy_controls">
+            <button class="jhy_nav-button" id="jhy_prevButton" type="button" aria-label="上一道菜">←</button>
+            <div class="jhy_progress">
+              <strong id="jhy_progressText">第 1/4 张</strong>
+              <div class="jhy_dots" id="jhy_dots" aria-hidden="true">
+                <span class="jhy_dot jhy_is-active"></span>
+                <span class="jhy_dot"></span>
+                <span class="jhy_dot"></span>
+                <span class="jhy_dot"></span>
+              </div>
+            </div>
+            <button class="jhy_nav-button" id="jhy_nextButton" type="button" aria-label="下一道菜">→</button>
+          </div>
+        </article>
+        <p class="jhy_sr" id="jhy_liveStatus" aria-live="polite"></p>
+      </section>
+
+      <p class="jhy_status" id="jhy_status" role="status" aria-live="polite">向左或向右滑动卡片</p>
+
+      <section class="jhy_instruction" aria-label="交互说明">
+        <div class="jhy_instruction-card">
+          <strong>阈值判断</strong>
+          <span>横向位移至少 40px，且横向位移大于纵向位移才会切换。</span>
+        </div>
+        <div class="jhy_instruction-card">
+          <strong>页面仍可滚动</strong>
+          <span>卡片使用 touch-action: pan-y，纵向手势仍交给浏览器。</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const jhy_dishes = [
+      {
+        jhy_region: "北京 · 京味",
+        jhy_emoji: "🦆",
+        jhy_name: "北京烤鸭",
+        jhy_desc: "果木炭火烤制，鸭皮酥脆透亮，配薄饼、甜面酱与葱丝卷食。",
+        jhy_tags: ["酥脆", "京味经典"],
+        jhy_gradient: "linear-gradient(135deg, #f97316, #b91c1c)"
+      },
+      {
+        jhy_region: "四川 · 川味",
+        jhy_emoji: "🌶️",
+        jhy_name: "麻婆豆腐",
+        jhy_desc: "花椒的麻、辣椒的香与嫩豆腐交融，一勺就能点亮整碗米饭。",
+        jhy_tags: ["麻辣", "下饭"],
+        jhy_gradient: "linear-gradient(135deg, #dc2626, #7f1d1d)"
+      },
+      {
+        jhy_region: "广东 · 粤味",
+        jhy_emoji: "🍗",
+        jhy_name: "白切鸡",
+        jhy_desc: "以低温浸煮保留鸡肉本味，皮爽肉滑，蘸姜葱蓉清鲜回甘。",
+        jhy_tags: ["清鲜", "原汁原味"],
+        jhy_gradient: "linear-gradient(135deg, #0f766e, #166534)"
+      },
+      {
+        jhy_region: "江苏 · 苏味",
+        jhy_emoji: "🐟",
+        jhy_name: "松鼠鳜鱼",
+        jhy_desc: "鱼肉改花刀后炸至蓬松，浇上酸甜汁，形似松鼠、外酥里嫩。",
+        jhy_tags: ["酸甜", "刀工"],
+        jhy_gradient: "linear-gradient(135deg, #d97706, #9a3412)"
+      }
+    ];
+
+    const jhy_foodCard = document.getElementById("jhy_foodCard");
+    const jhy_region = document.getElementById("jhy_region");
+    const jhy_emoji = document.getElementById("jhy_emoji");
+    const jhy_dishName = document.getElementById("jhy_dishName");
+    const jhy_dishDesc = document.getElementById("jhy_dishDesc");
+    const jhy_tags = document.getElementById("jhy_tags");
+    const jhy_progressText = document.getElementById("jhy_progressText");
+    const jhy_dots = Array.from(document.querySelectorAll(".jhy_dot"));
+    const jhy_status = document.getElementById("jhy_status");
+    const jhy_liveStatus = document.getElementById("jhy_liveStatus");
+    const jhy_prevButton = document.getElementById("jhy_prevButton");
+    const jhy_nextButton = document.getElementById("jhy_nextButton");
+
+    const jhy_swipeThreshold = 40;
+    const jhy_cooldownMs = 300;
+    const jhy_transitionMs = 300;
+    let jhy_index = 0;
+    let jhy_startX = 0;
+    let jhy_startY = 0;
+    let jhy_isTracking = false;
+    let jhy_isLocked = false;
+    let jhy_cooldownUntil = 0;
+
+    function jhy_renderDish() {
+      const jhy_dish = jhy_dishes[jhy_index];
+      jhy_foodCard.style.setProperty("--jhy_card-bg", jhy_dish.jhy_gradient);
+      jhy_region.textContent = jhy_dish.jhy_region;
+      jhy_emoji.textContent = jhy_dish.jhy_emoji;
+      jhy_dishName.textContent = jhy_dish.jhy_name;
+      jhy_dishDesc.textContent = jhy_dish.jhy_desc;
+      jhy_tags.replaceChildren(...jhy_dish.jhy_tags.map((jhy_text) => {
+        const jhy_tag = document.createElement("span");
+        jhy_tag.className = "jhy_tag-item";
+        jhy_tag.textContent = jhy_text;
+        return jhy_tag;
+      }));
+      jhy_progressText.textContent = `第 ${jhy_index + 1}/${jhy_dishes.length} 张`;
+      jhy_dots.forEach((jhy_dot, jhy_dotIndex) => {
+        jhy_dot.classList.toggle("jhy_is-active", jhy_dotIndex === jhy_index);
+      });
+    }
+
+    function jhy_setStatus(jhy_message, jhy_isWarning = false) {
+      jhy_status.textContent = jhy_message;
+      jhy_status.classList.toggle("jhy_is-warning", jhy_isWarning);
+      jhy_liveStatus.textContent = jhy_message;
+    }
+
+    function jhy_switchCard(jhy_direction) {
+      const jhy_now = Date.now();
+      if (jhy_isLocked || jhy_now < jhy_cooldownUntil) {
+        return;
+      }
+
+      const jhy_target = jhy_index + jhy_direction;
+      if (jhy_target < 0) {
+        jhy_setStatus("已经是第一张", true);
+        return;
+      }
+      if (jhy_target >= jhy_dishes.length) {
+        jhy_setStatus("已经是最后一张", true);
+        return;
+      }
+
+      jhy_isLocked = true;
+      jhy_cooldownUntil = jhy_now + jhy_cooldownMs;
+      const jhy_exitClass = jhy_direction > 0 ? "jhy_is-exit-left" : "jhy_is-exit-right";
+      const jhy_enterClass = jhy_direction > 0 ? "jhy_is-enter-right" : "jhy_is-enter-left";
+      jhy_foodCard.classList.add(jhy_exitClass);
+      jhy_setStatus(jhy_direction > 0 ? "下一道菜" : "上一道菜");
+
+      window.setTimeout(() => {
+        jhy_index = jhy_target;
+        jhy_renderDish();
+        jhy_foodCard.classList.remove(jhy_exitClass);
+        jhy_foodCard.classList.add(jhy_enterClass);
+
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            jhy_foodCard.classList.remove(jhy_enterClass);
+          });
+        });
+
+        window.setTimeout(() => {
+          jhy_isLocked = false;
+        }, jhy_transitionMs + 40);
+      }, Math.round(jhy_transitionMs / 2));
+    }
+
+    function jhy_onTouchStart(jhy_event) {
+      const jhy_touch = jhy_event.touches[0];
+      jhy_startX = jhy_touch.clientX;
+      jhy_startY = jhy_touch.clientY;
+      jhy_isTracking = true;
+    }
+
+    function jhy_onTouchMove(jhy_event) {
+      if (!jhy_isTracking || jhy_event.touches.length !== 1) {
+        return;
+      }
+      const jhy_touch = jhy_event.touches[0];
+      const jhy_deltaX = jhy_touch.clientX - jhy_startX;
+      const jhy_deltaY = jhy_touch.clientY - jhy_startY;
+
+      if (Math.abs(jhy_deltaX) > Math.abs(jhy_deltaY) && Math.abs(jhy_deltaX) > 8) {
+        if (jhy_event.cancelable) {
+          jhy_event.preventDefault();
+        }
+      }
+    }
+
+    function jhy_onTouchEnd(jhy_event) {
+      if (!jhy_isTracking) {
+        return;
+      }
+      jhy_isTracking = false;
+
+      const jhy_touch = jhy_event.changedTouches[0];
+      const jhy_deltaX = jhy_touch.clientX - jhy_startX;
+      const jhy_deltaY = jhy_touch.clientY - jhy_startY;
+      const jhy_isHorizontal = Math.abs(jhy_deltaX) > Math.abs(jhy_deltaY) * 1.1;
+
+      if (Math.abs(jhy_deltaX) < jhy_swipeThreshold) {
+        jhy_setStatus("位移不足 40px，不切换");
+        return;
+      }
+
+      if (!jhy_isHorizontal) {
+        jhy_setStatus("纵向手势留给页面滚动");
+        return;
+      }
+
+      jhy_switchCard(jhy_deltaX < 0 ? 1 : -1);
+    }
+
+    function jhy_onKeyDown(jhy_event) {
+      if (jhy_event.key === "ArrowLeft") {
+        jhy_switchCard(-1);
+      }
+      if (jhy_event.key === "ArrowRight") {
+        jhy_switchCard(1);
+      }
+    }
+
+    jhy_prevButton.addEventListener("click", () => jhy_switchCard(-1));
+    jhy_nextButton.addEventListener("click", () => jhy_switchCard(1));
+    jhy_foodCard.addEventListener("touchstart", jhy_onTouchStart, { passive: true });
+    jhy_foodCard.addEventListener("touchmove", jhy_onTouchMove, { passive: false });
+    jhy_foodCard.addEventListener("touchend", jhy_onTouchEnd);
+    jhy_foodCard.addEventListener("touchcancel", () => {
+      jhy_isTracking = false;
+      jhy_setStatus("触摸被系统中断", true);
+    });
+    document.addEventListener("keydown", jhy_onKeyDown);
+
+    jhy_renderDish();
+  </script>
+</body>
+</html>

@@ -90,9 +90,9 @@
   <div class="wy-head">
     <span class="wy-badge">高 职 · 高 级 网 页 设 计 · 课 堂 操 作 任 务</span>
     <h1>Swiper 轮播组件 · <b>大国重器光影展（学生版）</b></h1>
-    <p>HTML 骨架和 CSS 样式已经全部搭好，图片也备齐了——但这个页面的轮播<b>一个都不会动</b>！
+    <p>HTML 骨架和 CSS 样式已经全部搭好，但这个页面的轮播<b>一个都不会动</b>！
     因为所有 <b>&lt;script&gt; 里的 JS 初始化代码都被抽走了</b>。你的任务：把 4 个轮播全部"救活"。</p>
-    <div class="wy-goals"><i>任务 1 · 救活最小轮播</i><i>任务 2 · 装上圆点和箭头</i><i>任务 3 · 让它自己翻页</i><i>任务 4 · 六种效果随心换</i></div>
+    <div class="wy-goals"><i>任务 1 · 救活最小轮播</i><i>任务 2 · 装上圆点和箭头</i><i>任务 3 · 让它自己翻页</i><i>任务 4 · 六种效果随心换</i><i>加分 · 键盘方向键</i></div>
   </div>
 
   <div class="wy-rule">
@@ -100,7 +100,8 @@
     ① Swiper 组件库已通过 CDN 引入（页面第 8、9 行），<b>不需要</b>再写引入代码；<br>
     ② 每个"演示台"下面的绿色卡片就是该任务的要求，JS 代码统一写在页面最底部的 <code>&lt;script&gt;</code> 区域内；<br>
     ③ 每完成一个任务就<b>刷新页面验证</b>：能拖、能点、会自己翻，才算通过；<br>
-    ④ 控制台（F12）报错是你要最好的朋友——先读报错，再改代码。
+    ④ 控制台（F12）报错是你要最好的朋友——先读报错，再改代码；<br>
+    ⑤ 光影展新增 AI 生成的爱达·魔都号插画；在演示四所在视口按键盘 <code>←</code> / <code>→</code> 可切换展品。
   </div>
 
   <!-- 任务 1 -->
@@ -125,6 +126,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>2023 年商业首航 · 国产干线客机翱翔蓝天</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>10909 米 · 触碰地球第四极马里亚纳海沟</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>500 米口径 · 世界最大单口径射电望远镜</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adora-magic-city-ai.svg" alt="AI生成的爱达·魔都号邮轮插画，夕阳下航行于上海港"><div class="wy-cap"><h3>爱达·魔都号</h3><p>首艘国产大型邮轮 · 2024 年 1 月首航</p></div></div>
           </div>
         </div>
       </div>
@@ -153,6 +155,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>让中国人的大飞机梦照进现实</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>坐底万米 · 深海探测进入"中国时代"</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>南仁东先生 22 年铸就的观天巨目</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adora-magic-city-ai.svg" alt="AI生成的爱达·魔都号邮轮插画，夕阳下航行于上海港"><div class="wy-cap"><h3>爱达·魔都号</h3><p>首艘国产大型邮轮 · 2024 年 1 月首航</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag2"></div>
           <div class="swiper-button-prev" id="wyPrev2"></div>
@@ -184,6 +187,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>蓝天之上 · 大国担当</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>万米深潜 · 无畏探索</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>仰望星空 · 脚踏实地</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adora-magic-city-ai.svg" alt="AI生成的爱达·魔都号邮轮插画，夕阳下航行于上海港"><div class="wy-cap"><h3>爱达·魔都号</h3><p>首艘国产大型邮轮 · 2024 年 1 月首航</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag3"></div>
         </div>
@@ -198,6 +202,7 @@
       <h2>六种效果随心换<small>effect 参数 + 进阶：按钮实时切换</small></h2>
     </div>
     <p class="wy-txt">改一个 <code>effect</code> 参数，轮播立刻换一种"性格"：slide / fade / cube / coverflow / flip / cards。上面的 6 个按钮已经绑好了点击事件（读取 <code>btn.dataset.fx</code>），JS 还需要你补两段。</p>
+    <p class="wy-txt"><b>超纲加分：</b>演示四支持键盘方向键。滚动到本演示区域后，按 <code>←</code> / <code>→</code> 切换展品；<code>onlyInViewport: true</code> 让键盘控制只在轮播出现在视口时生效。</p>
     <div class="wy-req">
       <h3>✍️ 任务 4 要求</h3>
       <p><b>基础分</b>：初始化 <code>#wySw4</code>，实现循环 + 自动播放（3.2 秒）+ 圆点分页器（#wyPag4），初始效果为 <code>'slide'</code>，动画时长 800 毫秒。</p>
@@ -222,6 +227,7 @@
             <div class="swiper-slide"><img src="swiper-imgs/c919_1.jpg" alt="C919大飞机"><div class="wy-cap"><h3>C919 大飞机</h3><p>企业官网爱用 fade</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号"><div class="wy-cap"><h3>奋斗者号</h3><p>游戏网站爱用 cube</p></div></div>
             <div class="swiper-slide"><img src="swiper-imgs/fast_1.jpg" alt="中国天眼"><div class="wy-cap"><h3>中国天眼 FAST</h3><p>相册页面爱用 coverflow</p></div></div>
+            <div class="swiper-slide"><img src="swiper-imgs/adora-magic-city-ai.svg" alt="AI生成的爱达·魔都号邮轮插画，夕阳下航行于上海港"><div class="wy-cap"><h3>爱达·魔都号</h3><p>首艘国产大型邮轮 · 2024 年 1 月首航</p></div></div>
           </div>
           <div class="swiper-pagination" id="wyPag4"></div>
         </div>
@@ -229,7 +235,7 @@
     </div>
   </div>
 
-  <div class="wy-back"><a href="index.html">← 返回课堂实践中心</a>　<a href="swiper-lesson.html">查看教师讲解版 →</a></div>
+  <div class="wy-back"><a href="../index.html">← 返回课堂实践中心</a></div>
 
   <footer>Swiper 课堂操作任务 · 大国重器光影展（学生版） · 高级网页设计 · 2026-2027-1</footer>
 </div>
@@ -282,6 +288,10 @@
       },
       pagination: {
         el: '#wyPag4'
+      },
+      keyboard: {
+        enabled: true,
+        onlyInViewport: true
       }
     };
 

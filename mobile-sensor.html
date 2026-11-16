@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<!--
+  姓名：贾皓尧
+  学号：24001011116
+  任务四：摇一摇彩蛋——设备运动传感器、权限申请与降级方案
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#071b16">
+  <title>任务四 · 摇一摇今日菜谱</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --jhy_ink: #effdf8;
+      --jhy_sub: #9fc5b9;
+      --jhy_line: rgba(167, 243, 208, 0.14);
+      --jhy_green: #34d399;
+      --jhy_mint: #a7f3d0;
+      --jhy_orange: #fb923c;
+      --jhy_panel: rgba(9, 42, 34, 0.78);
+      --jhy_dish-bg: linear-gradient(135deg, #047857, #064e3b);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--jhy_ink);
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 15% 8%, rgba(52, 211, 153, 0.24), transparent 32%),
+        radial-gradient(circle at 92% 84%, rgba(251, 146, 60, 0.16), transparent 32%),
+        #071b16;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .jhy_page {
+      width: min(100%, 560px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 17px max(34px, env(safe-area-inset-bottom));
+    }
+
+    .jhy_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .jhy_back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 0 14px;
+      color: #d1fae5;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--jhy_line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .jhy_tag {
+      padding: 6px 12px;
+      color: var(--jhy_mint);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      border-radius: 999px;
+      background: rgba(52, 211, 153, 0.12);
+    }
+
+    .jhy_hero {
+      padding: 2px 4px 22px;
+    }
+
+    .jhy_kicker {
+      margin: 0 0 9px;
+      color: var(--jhy_green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+    }
+
+    .jhy_title {
+      margin: 0;
+      font-size: clamp(2rem, 10vw, 3.35rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .jhy_title span {
+      color: var(--jhy_orange);
+    }
+
+    .jhy_lead {
+      margin: 13px 0 0;
+      color: var(--jhy_sub);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    .jhy_sensor-panel {
+      position: relative;
+      padding: 22px 18px 18px;
+      overflow: hidden;
+      border: 1px solid var(--jhy_line);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(21, 78, 64, 0.75), rgba(7, 27, 22, 0.92));
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.3);
+    }
+
+    .jhy_sensor-panel::before {
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      width: 300px;
+      height: 300px;
+      content: "";
+      border-radius: 50%;
+      background: rgba(52, 211, 153, 0.1);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .jhy_sensor-orbit {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 126px;
+      height: 126px;
+      margin: 4px auto 16px;
+      place-items: center;
+      border: 1px solid rgba(167, 243, 208, 0.18);
+      border-radius: 50%;
+      background: rgba(6, 78, 59, 0.56);
+      box-shadow:
+        0 0 0 18px rgba(52, 211, 153, 0.055),
+        0 0 0 36px rgba(52, 211, 153, 0.028);
+    }
+
+    .jhy_phone {
+      font-size: 54px;
+      transform: rotate(-8deg);
+      filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.32));
+      animation: jhy_float 2.8s ease-in-out infinite;
+    }
+
+    .jhy_sensor-title {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 1.12rem;
+      text-align: center;
+    }
+
+    .jhy_sensor-status {
+      position: relative;
+      z-index: 1;
+      min-height: 38px;
+      margin: 8px auto 0;
+      color: var(--jhy_sub);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    .jhy_permission,
+    .jhy_fallback {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      min-height: 45px;
+      margin-top: 13px;
+      padding: 0 18px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .jhy_permission {
+      color: #06251d;
+      background: linear-gradient(135deg, #a7f3d0, #34d399);
+    }
+
+    .jhy_fallback {
+      color: #f4fff9;
+      border: 1px solid var(--jhy_line);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .jhy_permission[hidden] {
+      display: none;
+    }
+
+    .jhy_result-card {
+      position: relative;
+      z-index: 1;
+      min-height: 252px;
+      margin-top: 18px;
+      padding: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 24px;
+      background: var(--jhy_dish-bg);
+      transform: scale(1);
+    }
+
+    .jhy_result-card::after {
+      position: absolute;
+      right: -44px;
+      bottom: -65px;
+      width: 180px;
+      height: 180px;
+      content: "";
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .jhy_result-card.jhy_is-popping {
+      animation: jhy_pop 0.42s cubic-bezier(0.2, 1.3, 0.4, 1);
+    }
+
+    .jhy_result-label {
+      display: inline-flex;
+      padding: 5px 9px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.12);
+    }
+
+    .jhy_result-emoji {
+      display: block;
+      margin-top: 18px;
+      font-size: 48px;
+      line-height: 1;
+    }
+
+    .jhy_result-name {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-top: 14px;
+      font-size: 1.65rem;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+    }
+
+    .jhy_result-desc {
+      position: relative;
+      z-index: 1;
+      max-width: 24rem;
+      margin: 8px 0 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.78rem;
+      line-height: 1.65;
+    }
+
+    .jhy_notes {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border: 1px solid var(--jhy_line);
+      border-radius: 20px;
+      background: var(--jhy_panel);
+    }
+
+    .jhy_notes h2 {
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+    }
+
+    .jhy_notes p {
+      margin: 0;
+      color: var(--jhy_sub);
+      font-size: 0.74rem;
+      line-height: 1.75;
+    }
+
+    .jhy_notes code {
+      color: #d1fae5;
+      font-family: Consolas, monospace;
+    }
+
+    .jhy_sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @keyframes jhy_float {
+      0%,
+      100% {
+        transform: rotate(-8deg) translateY(0);
+      }
+      50% {
+        transform: rotate(5deg) translateY(-7px);
+      }
+    }
+
+    @keyframes jhy_pop {
+      0% {
+        opacity: 0.45;
+        transform: scale(0.9) rotate(-1.5deg);
+      }
+      70% {
+        opacity: 1;
+        transform: scale(1.025) rotate(0.5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .jhy_phone,
+      .jhy_result-card.jhy_is-popping {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="jhy_page">
+    <header class="jhy_topbar">
+      <a class="jhy_back" href="./index.html">← 返回作品集</a>
+      <span class="jhy_tag">任务四 · 设备传感器</span>
+    </header>
+
+    <main>
+      <section class="jhy_hero" aria-labelledby="jhy_title">
+        <p class="jhy_kicker">摇一摇 · 今日菜谱</p>
+        <h1 class="jhy_title" id="jhy_title">摇动手机，<span>抽一份今日好运</span></h1>
+        <p class="jhy_lead">连续摇动手机即可抽取今日菜谱。一次摇动只触发一次，触发后进入 1.5 秒冷却；没有传感器时仍可使用降级按钮。</p>
+      </section>
+
+      <section class="jhy_sensor-panel" aria-label="摇一摇抽菜谱">
+        <div class="jhy_sensor-orbit" aria-hidden="true">
+          <span class="jhy_phone">📱</span>
+        </div>
+        <h2 class="jhy_sensor-title">摇一摇手机，抽今日菜谱</h2>
+        <p class="jhy_sensor-status" id="jhy_sensorStatus" role="status" aria-live="polite">正在检测设备运动传感器…</p>
+        <button class="jhy_permission" id="jhy_permissionButton" type="button" hidden>启用运动传感器</button>
+
+        <article class="jhy_result-card" id="jhy_resultCard" style="--jhy_dish-bg: linear-gradient(135deg, #047857, #064e3b);">
+          <span class="jhy_result-label">TODAY'S PICK</span>
+          <span class="jhy_result-emoji" id="jhy_resultEmoji" aria-hidden="true">🥢</span>
+          <strong class="jhy_result-name" id="jhy_resultName">等待摇动</strong>
+          <p class="jhy_result-desc" id="jhy_resultDesc">摇动设备或点击下方按钮，看看今天适合吃什么。</p>
+        </article>
+
+        <button class="jhy_fallback" id="jhy_fallbackButton" type="button">点我抽一次 · 无传感器降级</button>
+      </section>
+
+      <section class="jhy_notes" aria-label="降级与知识说明">
+        <h2>为什么必须做降级？</h2>
+        <p>桌面浏览器、旧设备或用户拒绝权限时，<code>devicemotion</code> 可能完全不会触发。若只依赖传感器，页面会一直停在“等待中”。因此这里同时提供按钮抽签，并明确显示“当前设备不支持”，保证任何设备都能完成核心操作。</p>
+        <p><br><code>accelerationIncludingGravity</code> 包含重力，静止时通常仍有约 9.8 m/s² 的读数；<code>acceleration</code> 已去除重力，只反映设备自身运动。本项目使用前者合成总加速度，阈值设为约 18。</p>
+      </section>
+      <p class="jhy_sr" id="jhy_liveStatus" aria-live="assertive"></p>
+    </main>
+  </div>
+
+  <script>
+    const jhy_dishes = [
+      {
+        jhy_emoji: "🍜",
+        jhy_name: "番茄牛腩面",
+        jhy_desc: "酸甜番茄汤底配软烂牛腩，热气腾腾，适合需要能量的一天。",
+        jhy_gradient: "linear-gradient(135deg, #dc2626, #7c2d12)"
+      },
+      {
+        jhy_emoji: "🍚",
+        jhy_name: "腊味煲仔饭",
+        jhy_desc: "腊肠与米饭一同焖煮，锅巴焦香，淋上酱汁后层次十足。",
+        jhy_gradient: "linear-gradient(135deg, #b45309, #78350f)"
+      },
+      {
+        jhy_emoji: "🥟",
+        jhy_name: "鲜虾蒸饺",
+        jhy_desc: "薄皮包住整颗鲜虾，入口弹嫩多汁，清爽又有满足感。",
+        jhy_gradient: "linear-gradient(135deg, #0f766e, #115e59)"
+      },
+      {
+        jhy_emoji: "🍲",
+        jhy_name: "菌菇豆腐煲",
+        jhy_desc: "多种菌菇与嫩豆腐慢煨，汤鲜味醇，适合轻松的一餐。",
+        jhy_gradient: "linear-gradient(135deg, #4d7c0f, #365314)"
+      },
+      {
+        jhy_emoji: "🌮",
+        jhy_name: "孜然鸡肉卷",
+        jhy_desc: "孜然香气与嫩鸡肉卷入薄饼，搭配生菜，简单又过瘾。",
+        jhy_gradient: "linear-gradient(135deg, #c2410c, #9a3412)"
+      },
+      {
+        jhy_emoji: "🍛",
+        jhy_name: "咖喱土豆鸡",
+        jhy_desc: "浓郁咖喱包裹鸡肉与土豆，配一碗米饭就是稳稳的幸福。",
+        jhy_gradient: "linear-gradient(135deg, #ca8a04, #854d0e)"
+      }
+    ];
+
+    const jhy_resultCard = document.getElementById("jhy_resultCard");
+    const jhy_resultEmoji = document.getElementById("jhy_resultEmoji");
+    const jhy_resultName = document.getElementById("jhy_resultName");
+    const jhy_resultDesc = document.getElementById("jhy_resultDesc");
+    const jhy_sensorStatus = document.getElementById("jhy_sensorStatus");
+    const jhy_liveStatus = document.getElementById("jhy_liveStatus");
+    const jhy_permissionButton = document.getElementById("jhy_permissionButton");
+    const jhy_fallbackButton = document.getElementById("jhy_fallbackButton");
+
+    const jhy_shakeThreshold = 18;
+    const jhy_cooldownMs = 1500;
+    const jhy_sensorTimeoutMs = 2600;
+
+    let jhy_listenerAttached = false;
+    let jhy_sensorSeen = false;
+    let jhy_cooldownUntil = 0;
+    let jhy_lastDishIndex = -1;
+    let jhy_sensorTimer = 0;
+
+    function jhy_drawDish(jhy_source) {
+      let jhy_nextIndex = Math.floor(Math.random() * jhy_dishes.length);
+      if (jhy_nextIndex === jhy_lastDishIndex) {
+        jhy_nextIndex = (jhy_nextIndex + 1) % jhy_dishes.length;
+      }
+      jhy_lastDishIndex = jhy_nextIndex;
+      const jhy_dish = jhy_dishes[jhy_nextIndex];
+
+      jhy_resultCard.style.setProperty("--jhy_dish-bg", jhy_dish.jhy_gradient);
+      jhy_resultEmoji.textContent = jhy_dish.jhy_emoji;
+      jhy_resultName.textContent = jhy_dish.jhy_name;
+      jhy_resultDesc.textContent = jhy_dish.jhy_desc;
+      jhy_resultCard.classList.remove("jhy_is-popping");
+      void jhy_resultCard.offsetWidth;
+      jhy_resultCard.classList.add("jhy_is-popping");
+
+      const jhy_message = `${jhy_source}抽取结果：${jhy_dish.jhy_name}`;
+      jhy_sensorStatus.textContent = jhy_message;
+      jhy_liveStatus.textContent = jhy_message;
+    }
+
+    function jhy_showUnsupported() {
+      jhy_sensorStatus.textContent = "当前设备不支持，请用手机打开。你也可以点击下方按钮抽一次。";
+      jhy_liveStatus.textContent = jhy_sensorStatus.textContent;
+    }
+
+    function jhy_onMotion(jhy_event) {
+      const jhy_acceleration = jhy_event.accelerationIncludingGravity;
+      if (!jhy_acceleration
+        || typeof jhy_acceleration.x !== "number"
+        || typeof jhy_acceleration.y !== "number"
+        || typeof jhy_acceleration.z !== "number") {
+        return;
+      }
+
+      jhy_sensorSeen = true;
+      window.clearTimeout(jhy_sensorTimer);
+      jhy_sensorStatus.textContent = "传感器已连接，摇一摇手机试试看";
+      jhy_liveStatus.textContent = "传感器已连接";
+
+      const jhy_magnitude = Math.hypot(
+        jhy_acceleration.x,
+        jhy_acceleration.y,
+        jhy_acceleration.z
+      );
+      const jhy_now = Date.now();
+
+      if (jhy_magnitude > jhy_shakeThreshold && jhy_now >= jhy_cooldownUntil) {
+        jhy_cooldownUntil = jhy_now + jhy_cooldownMs;
+        jhy_drawDish("摇一摇");
+      }
+    }
+
+    function jhy_startSensorWatch() {
+      window.clearTimeout(jhy_sensorTimer);
+      jhy_sensorTimer = window.setTimeout(() => {
+        if (!jhy_sensorSeen) {
+          jhy_showUnsupported();
+        }
+      }, jhy_sensorTimeoutMs);
+    }
+
+    function jhy_attachMotionListener() {
+      if (jhy_listenerAttached) {
+        return;
+      }
+      if (!("DeviceMotionEvent" in window)) {
+        jhy_showUnsupported();
+        return;
+      }
+      jhy_listenerAttached = true;
+      jhy_sensorStatus.textContent = "正在等待传感器数据…";
+      window.addEventListener("devicemotion", jhy_onMotion, { passive: true });
+      jhy_startSensorWatch();
+    }
+
+    async function jhy_requestPermission() {
+      try {
+        const jhy_permission = await DeviceMotionEvent.requestPermission();
+        if (jhy_permission === "granted") {
+          jhy_permissionButton.hidden = true;
+          jhy_attachMotionListener();
+          jhy_sensorStatus.textContent = "权限已开启，正在等待传感器数据…";
+        } else {
+          jhy_showUnsupported();
+          jhy_sensorStatus.textContent = "传感器权限未开启，请使用下方按钮抽一次。";
+        }
+      } catch (jhy_error) {
+        jhy_showUnsupported();
+        jhy_sensorStatus.textContent = "权限申请失败，请使用下方按钮抽一次。";
+      }
+    }
+
+    jhy_permissionButton.addEventListener("click", jhy_requestPermission);
+    jhy_fallbackButton.addEventListener("click", () => jhy_drawDish("手动"));
+
+    const jhy_isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    if (jhy_isIOS
+      && typeof DeviceMotionEvent !== "undefined"
+      && typeof DeviceMotionEvent.requestPermission === "function") {
+      jhy_permissionButton.hidden = false;
+      jhy_sensorStatus.textContent = "iOS 需要先点击按钮授权运动与方向访问。";
+    } else {
+      jhy_attachMotionListener();
+    }
+  </script>
+</body>
+</html>
